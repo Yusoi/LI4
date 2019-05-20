@@ -31,7 +31,7 @@ namespace Deserto.Controllers
         [HttpGet]
         public IActionResult displayInstruction(int i)
         {
-            TempData["teste"] = 0;
+            TempData["ordernr"] = 0;
             List<Instruction> list = recipeHandling.getInstructions(4);
             return View(list.ElementAt(0));
         }
@@ -39,16 +39,16 @@ namespace Deserto.Controllers
         [HttpPost]
         public IActionResult displayInstruction(Instruction r)
         {
-            int ind = (int)TempData["teste"];
-            TempData["teste"] = ind + 1;
-            TempData.Keep("teste");
+            int ind = (int)TempData["ordernr"];
+            TempData["ordernr"] = ind + 1;
+            TempData.Keep("ordernr");
             List<Instruction> list = recipeHandling.getInstructions(4);
 
             if (list.Count() != ind + 2)
-                return View(list.ElementAt((int)TempData["teste"]));
+                return View(list.ElementAt((int)TempData["ordernr"]));
 
             TempData["button"] = "false";
-            return View(list.ElementAt((int)TempData["teste"]));
+            return View(list.ElementAt((int)TempData["ordernr"]));
         }
 
     }
