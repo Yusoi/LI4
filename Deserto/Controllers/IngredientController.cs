@@ -21,14 +21,14 @@ public class IngredientController : Controller
     [HttpGet]
     public Ingredient[] Get()
     {
-        return _context.ingredient.ToArray();
+        return _context.Ingredient.ToArray();
     }
 
 
     [HttpGet("{ingredientID}")]
     public ActionResult Get(int ingredientID)
     {
-        var ingredient = _context.ingredient.Find(ingredientID);
+        var ingredient = _context.Ingredient.Find(ingredientID);
 
         if (ingredient == null)
         {
@@ -41,7 +41,7 @@ public class IngredientController : Controller
     [HttpPost]
     public IActionResult Add([FromBody] Ingredient ingredient)
     {
-        _context.ingredient.Add(ingredient);
+        _context.Ingredient.Add(ingredient);
         _context.SaveChanges();
         return new CreatedResult($"/api/ingredient/{ingredient.ingredientID}", ingredient);
     }
@@ -49,13 +49,13 @@ public class IngredientController : Controller
     [HttpDelete]
     public IActionResult Delete([FromQuery] int ingredientID)
     {
-        var ingredient = _context.ingredient.Find(ingredientID);
+        var ingredient = _context.Ingredient.Find(ingredientID);
 
         if (ingredient == null)
         {
             return NotFound();
         }
-        _context.ingredient.Remove(ingredient);
+        _context.Ingredient.Remove(ingredient);
         _context.SaveChanges();
         return NoContent();
     }

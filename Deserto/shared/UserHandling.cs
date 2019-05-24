@@ -3,14 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Deserto.Models;
-
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Deserto.Models;
 using System.Collections;
 using Deserto.shared;
 
@@ -26,22 +19,22 @@ namespace Models.shared
 
         public User[] getUsers()
         {
-            return _context.user.ToArray();
+            return _context.User.ToArray();
         }
 
         public List<Ingredient> getExcludedIngredients(int userID)
         {
-            var user = _context.user.Find(userID);
+            var user = _context.User.Find(userID);
             if (user == null)
             {
                 return null;
             }
-            var excludedingredients = _context.excludedIngredients.Where(s => s.userID == userID);
+            var excludedingredients = _context.ExcludedIngredients.Where(s => s.userID == userID);
             if (excludedingredients == null) return null;
             List<Ingredient> ingredients = new List<Ingredient>();
             foreach (ExcludedIngredients t in excludedingredients)
             {
-                ingredients.Add(_context.ingredient.Find(t.ingredientID));
+                ingredients.Add(_context.Ingredient.Find(t.ingredientID));
             }
 
             return ingredients;
@@ -49,8 +42,8 @@ namespace Models.shared
 
         public bool validateUser(User user)
         {
-            user.password = MyHelpers.HashPassword(user.password);
-            var returnedUser = _context.user.Where(b => b.email == user.email && b.password == user.password).FirstOrDefault();
+            user.Password = MyHelpers.HashPassword(user.Password);
+            var returnedUser = _context.User.Where(b => b.Email == user.Email && b.Password == user.Password).FirstOrDefault();
 
             if (returnedUser == null)
             {
@@ -61,8 +54,8 @@ namespace Models.shared
 
         public bool registerUser(User user)
         {
-            user.password = MyHelpers.HashPassword(user.password);
-            _context.user.Add(user);
+            user.Password = MyHelpers.HashPassword(user.Password);
+            _context.User.Add(user);
             _context.SaveChanges();
             return true;
         }

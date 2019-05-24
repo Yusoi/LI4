@@ -21,14 +21,14 @@ namespace Deserto.Controllers
         [HttpGet]
         public RecipeInstruction[] Get()
         {
-            return _context.recipeInstruction.ToArray();
+            return _context.RecipeInstruction.ToArray();
         }
 
 
         [HttpGet("{recipeID}/{instructionID}")]
         public ActionResult Get(int recipeID, int instructionID)
         {
-            var recipeInstruction = _context.recipeInstruction.Find(recipeID, instructionID);
+            var recipeInstruction = _context.RecipeInstruction.Find(recipeID, instructionID);
 
             if (recipeInstruction == null)
             {
@@ -41,7 +41,7 @@ namespace Deserto.Controllers
         [HttpPost]
         public IActionResult Add([FromBody] RecipeInstruction recipeInstruction)
         {
-            _context.recipeInstruction.Add(recipeInstruction);
+            _context.RecipeInstruction.Add(recipeInstruction);
             _context.SaveChanges();
             return new CreatedResult($"/api/recipeIngredient/{recipeInstruction.recipeID}/{recipeInstruction.instructionID}", recipeInstruction);
         }
@@ -49,13 +49,13 @@ namespace Deserto.Controllers
         [HttpDelete]
         public IActionResult Delete([FromQuery] int reciepID, int instructionID)
         {
-            var recipeInstruction = _context.recipeInstruction.Find(reciepID, instructionID);
+            var recipeInstruction = _context.RecipeInstruction.Find(reciepID, instructionID);
 
             if (recipeInstruction == null)
             {
                 return NotFound();
             }
-            _context.recipeInstruction.Remove(recipeInstruction);
+            _context.RecipeInstruction.Remove(recipeInstruction);
             _context.SaveChanges();
             return NoContent();
         }

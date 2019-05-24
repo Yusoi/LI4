@@ -21,14 +21,14 @@ namespace Deserto.Controllers
         [HttpGet]
         public ExcludedIngredients[] Get()
         {
-            return _context.excludedIngredients.ToArray();
+            return _context.ExcludedIngredients.ToArray();
         }
 
 
         [HttpGet("{userID}/{ingredientID}")]
         public ActionResult Get(int userID, int ingredientID)
         {
-            var excludedIngredients = _context.excludedIngredients.Find(userID, ingredientID);
+            var excludedIngredients = _context.ExcludedIngredients.Find(userID, ingredientID);
 
             if (excludedIngredients == null)
             {
@@ -41,7 +41,7 @@ namespace Deserto.Controllers
         [HttpPost]
         public IActionResult Add([FromBody] ExcludedIngredients excludedIngredients)
         {
-            _context.excludedIngredients.Add(excludedIngredients);
+            _context.ExcludedIngredients.Add(excludedIngredients);
             _context.SaveChanges();
             return new CreatedResult($"/api/recipe/{excludedIngredients.userID}/{excludedIngredients.ingredientID}", excludedIngredients);
         }
@@ -49,13 +49,13 @@ namespace Deserto.Controllers
         [HttpDelete]
         public IActionResult Delete([FromQuery] int userID, int ingredientID)
         {
-            var excludedIngredients = _context.excludedIngredients.Find(userID, ingredientID);
+            var excludedIngredients = _context.ExcludedIngredients.Find(userID, ingredientID);
 
             if (excludedIngredients == null)
             {
                 return NotFound();
             }
-            _context.excludedIngredients.Remove(excludedIngredients);
+            _context.ExcludedIngredients.Remove(excludedIngredients);
             _context.SaveChanges();
             return NoContent();
         }

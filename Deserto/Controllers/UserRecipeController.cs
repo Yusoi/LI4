@@ -21,14 +21,14 @@ namespace Deserto.Controllers
         [HttpGet]
         public UserRecipe[] Get()
         {
-            return _context.userRecipe.ToArray();
+            return _context.UserRecipe.ToArray();
         }
 
 
         [HttpGet("{userID}/{recipeID}")]
         public ActionResult Get(int userID,int recipeID)
         {
-            var recipe = _context.userRecipe.Find(userID, recipeID);
+            var recipe = _context.UserRecipe.Find(userID, recipeID);
 
             if (recipe == null)
             {
@@ -41,7 +41,7 @@ namespace Deserto.Controllers
         [HttpPost]
         public IActionResult Add([FromBody] UserRecipe urecipe)
         {
-            _context.userRecipe.Add(urecipe);
+            _context.UserRecipe.Add(urecipe);
             _context.SaveChanges();
             return new CreatedResult($"/api/recipe/{urecipe.recipeID}/{urecipe.userID}", urecipe);
         }
@@ -49,13 +49,13 @@ namespace Deserto.Controllers
         [HttpDelete]
         public IActionResult Delete([FromQuery] int receitaID, int userID)
         {
-            var recipe = _context.userRecipe.Find(userID, receitaID);
+            var recipe = _context.UserRecipe.Find(userID, receitaID);
 
             if (recipe == null)
             {
                 return NotFound();
             }
-            _context.userRecipe.Remove(recipe);
+            _context.UserRecipe.Remove(recipe);
             _context.SaveChanges();
             return NoContent();
         }

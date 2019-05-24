@@ -13,18 +13,18 @@ namespace Deserto.Models
     public class User
     {
         [Key]
-        public int userID { set; get; }
+        public int UserID { set; get; }
         [Required]
         [StringLength(50)]
-        public string nome { set; get; }
+        public string Nome { set; get; }
         [Required]
         //[DataType(DataType.EmailAddress)]
-        public string email { set; get; }
+        public string Email { set; get; }
         [Required]
         [StringLength(50)]
-        public string password { set; get; }
+        public string Password { set; get; }
         [Required]
-        public char premium { set; get; }
+        public char Premium { set; get; }
 
         public virtual ICollection<ExcludedIngredients> ExcludedIngredients { get; set; }
 
@@ -71,16 +71,16 @@ namespace Deserto.Models
                 .HasForeignKey(t => t.user_id)
                 .HasConstraintName("ForeignKey_User_Task");
                 */
-        public DbSet<User> user { get; set; }
-        public DbSet<Recipe> recipe { get; set; }
-        public DbSet<UserRecipe> userRecipe { get; set; }
-        public DbSet<Instruction> instruction { get; set; }
-        public DbSet<Explanation> explanation { get; set; }
-        public DbSet<Ingredient> ingredient { get; set; }
-        public DbSet<ExcludedIngredients> excludedIngredients { get; set; }
-        public DbSet<RecipeIngredient> recipeIngredient { get; set; }
-        public DbSet<RecipeInstruction> recipeInstruction { get; set; }
-        public DbSet<InstructionExplanation> instructionExplanation { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<Recipe> Recipe { get; set; }
+        public DbSet<UserRecipe> UserRecipe { get; set; }
+        public DbSet<Instruction> Instruction { get; set; }
+        public DbSet<Explanation> Explanation { get; set; }
+        public DbSet<Ingredient> Ingredient { get; set; }
+        public DbSet<ExcludedIngredients> ExcludedIngredients { get; set; }
+        public DbSet<RecipeIngredient> RecipeIngredient { get; set; }
+        public DbSet<RecipeInstruction> RecipeInstruction { get; set; }
+        public DbSet<InstructionExplanation> InstructionExplanation { get; set; }
         public int step ;
 
     }

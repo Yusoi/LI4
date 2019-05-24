@@ -24,14 +24,14 @@ namespace Deserto
         [HttpGet]
         public User[] Get()
         {
-            return _context.user.ToArray();
+            return _context.User.ToArray();
         }
 
 
         [HttpGet("{id}")]
         public ActionResult Get(int id)
         {
-            var user = _context.user.Find(id);
+            var user = _context.User.Find(id);
 
             if (user == null)
             {
@@ -44,21 +44,21 @@ namespace Deserto
         [HttpPost]
         public IActionResult Add([FromBody] User user)
         {
-            _context.user.Add(user);
+            _context.User.Add(user);
             _context.SaveChanges();
-            return new CreatedResult($"/api/user/{user.userID}", user);
+            return new CreatedResult($"/api/user/{user.UserID}", user);
         }
 
         [HttpDelete]
         public IActionResult Delete([FromQuery] int userID)
         {
-            var user = _context.user.Find(userID);
+            var user = _context.User.Find(userID);
 
             if (user == null)
             {
                 return NotFound();
             }
-            _context.user.Remove(user);
+            _context.User.Remove(user);
             _context.SaveChanges();
             return NoContent();
         }
@@ -66,12 +66,12 @@ namespace Deserto
         [HttpGet("getrecipes/{userID}")]
         public ActionResult getUserRecipes(int userID)
         {
-            var user = _context.user.Find(userID);
+            var user = _context.User.Find(userID);
             if (user == null)
             {
                 return NotFound();
             }
-            var recipes = _context.userRecipe.Where(s => s.userID == userID);
+            var recipes = _context.UserRecipe.Where(s => s.userID == userID);
             if (recipes == null) return NotFound();
             foreach (UserRecipe t in recipes)
             {
@@ -84,12 +84,12 @@ namespace Deserto
         [HttpGet("getexcludedIngredients/{userID}")]
         public ActionResult getuserExludedIngredients(int userID)
         {
-            var user = _context.user.Find(userID);
+            var user = _context.User.Find(userID);
             if (user == null)
             {
                 return NotFound();
             }
-            var ingredients = _context.excludedIngredients.Where(s => s.userID == userID);
+            var ingredients = _context.ExcludedIngredients.Where(s => s.userID == userID);
             if (ingredients == null) return NotFound();
             foreach (ExcludedIngredients t in ingredients)
             {

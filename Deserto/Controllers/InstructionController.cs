@@ -21,14 +21,14 @@ namespace Deserto.Controllers
         [HttpGet]
         public Instruction[] Get()
         {
-            return _context.instruction.ToArray();
+            return _context.Instruction.ToArray();
         }
 
 
         [HttpGet("{instructionID}")]
         public ActionResult Get(int instructionID)
         {
-            var instruction = _context.instruction.Find(instructionID);
+            var instruction = _context.Instruction.Find(instructionID);
 
             if (instruction == null)
             {
@@ -41,7 +41,7 @@ namespace Deserto.Controllers
         [HttpPost]
         public IActionResult Add([FromBody] Instruction instruction)
         {
-            _context.instruction.Add(instruction);
+            _context.Instruction.Add(instruction);
             _context.SaveChanges();
             return new CreatedResult($"/api/instruction/{instruction.instructionID}", instruction);
         }
@@ -49,13 +49,13 @@ namespace Deserto.Controllers
         [HttpDelete]
         public IActionResult Delete([FromQuery] int instructionID)
         {
-            var instruction = _context.instruction.Find(instructionID);
+            var instruction = _context.Instruction.Find(instructionID);
 
             if (instruction == null)
             {
                 return NotFound();
             }
-            _context.instruction.Remove(instruction);
+            _context.Instruction.Remove(instruction);
             _context.SaveChanges();
             return NoContent();
         }
@@ -63,12 +63,12 @@ namespace Deserto.Controllers
         [HttpGet("getExplanations/{instructionID}")]
         public ActionResult getRecipeInstructions(int instructionID)
         {
-            var instruction = _context.instruction.Find(instructionID);
+            var instruction = _context.Instruction.Find(instructionID);
             if (instruction == null)
             {
                 return NotFound();
             }
-            var explanations = _context.instructionExplanation.Where(s => s.instructionID == instructionID);
+            var explanations = _context.InstructionExplanation.Where(s => s.instructionID == instructionID);
             if (explanations == null) return NotFound();
             foreach (InstructionExplanation t in explanations)
             {
