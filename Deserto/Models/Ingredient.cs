@@ -20,6 +20,15 @@ namespace Deserto.Models
         [NotMapped]
         [JsonIgnore]
         public virtual ICollection<RecipeIngredient> RecipeIngredient { get; set; }
+        [NotMapped]
+        [JsonIgnore]
+        public int quant { set; get; }
 
+        public Ingredient() { }
+
+        public Ingredient(Ingredient c)
+        {
+            this.name = c.name;
+        }
     }
 }

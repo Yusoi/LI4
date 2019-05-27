@@ -24,5 +24,13 @@ namespace Deserto.Models
 
         [Required]
         public int ordernr { set; get; }
+
+        public RecipeInstruction(int recipeID, int instructionID, int ordernr)
+        {
+            this.recipeID = recipeID;
+            this.instructionID = instructionID;
+            this.ordernr = ordernr;
+        }
     }
+
 }

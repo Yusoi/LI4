@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Deserto.Models;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Deserto
 {
@@ -20,6 +21,12 @@ namespace Deserto
         {
             var connection = @"Server=localhost;Database=Deserto;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<UserContext>(options => options.UseSqlServer(connection));
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(options =>
+                    {
+                        options.LoginPath = "/UserView/UserLogin/";
+
+                    });
             services.AddMvc();
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
         }
@@ -31,6 +38,7 @@ namespace Deserto
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseAuthentication();
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
 

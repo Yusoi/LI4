@@ -21,5 +21,23 @@ namespace Deserto.Models
         [JsonIgnore]
         public virtual Recipe recipe { get; set; }
         public char rating { get; set; }
+
+        public UserRecipe() { }
+
+        public UserRecipe(int userID, int recipeID, char rating)
+        {
+            this.userID = userID;
+            this.recipeID = recipeID;
+            this.rating = rating;
+        }
+
+        public UserRecipe(UserRecipe c)
+        {
+            this.userID = c.userID;
+            this.recipeID = c.recipeID;
+            this.rating = c.rating;
+        }
     }
+
+
 }

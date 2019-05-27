@@ -16,14 +16,15 @@ namespace Deserto.Models
         [Required]
         [StringLength(256)]
         public string text { set; get; }
-        [Required]
-        public char original { set; get; }
+        public char original;
         public virtual ICollection<InstructionExplanation> InstructionExplanations { get; set; }
         [NotMapped]
         [JsonIgnore]
         public int order;
-        [NotMapped]
-        [JsonIgnore]
-        public bool button = true;
+        public Instruction() { }
+        public Instruction(Instruction c)
+        {
+            this.text = c.text;
+        }
     }
 }

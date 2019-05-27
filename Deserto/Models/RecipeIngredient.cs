@@ -22,5 +22,12 @@ namespace Deserto.Models
         public virtual Ingredient Ingredient { set; get; }
         [Required]
         public int quant { get; set; }
+
+        public RecipeIngredient(int recipeID, int ingredientID, int quant)
+        {
+            this.recipeID = recipeID;
+            this.ingredientID = ingredientID;
+            this.quant = quant;
+        }
     }
 }

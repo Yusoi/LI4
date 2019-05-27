@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 using Deserto.Models;
 using Microsoft.AspNetCore.Authentication;
@@ -78,15 +79,20 @@ namespace Deserto.Controllers
                 var LoginStatus = this.userHandling.validateUser(user);
                 if (LoginStatus)
                 {
+                    User logUser = userHandling.getUser(user.Email);
                     var claims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.Name, user.Email)
+                        new Claim(ClaimTypes.Email, user.Email),
+                        new Claim(ClaimTypes.Name, logUser.UserID.ToString())
                     };
                     ClaimsIdentity userIdentity = new ClaimsIdentity(claims, "login");
                     ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
+                    Thread.CurrentPrincipal = principal;
 
                     await HttpContext.SignInAsync(principal);
-                    return RedirectToAction("getUsers", "UserView");
+                    return RedirectToAction("getRecipes", "RecipeView");
+
+
                 }
                 else
                 {

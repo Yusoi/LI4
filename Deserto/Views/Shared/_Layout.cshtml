@@ -10,12 +10,16 @@
 </head>
 
 <body>
+
     <div class="container">
         <main role="main" class="pb-3">
+            @RenderSection("Scripts", false)
             @RenderBody()
+
         </main>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryvalidate/1.17.0/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validationunobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+
 </body>
 </html>

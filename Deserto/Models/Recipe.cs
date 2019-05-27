@@ -35,5 +35,37 @@ namespace Deserto.Models
         public virtual ICollection<RecipeIngredient> RecipeIngredient { get; set; }
 
         public virtual ICollection<RecipeInstruction> RecipeInstruction { get; set; }
+
+        [NotMapped]
+        [JsonIgnore]
+        public List<Ingredient> ingredients { set; get; } = new List<Ingredient>();
+        [NotMapped]
+        [JsonIgnore]
+        public List<Instruction> instrucoes { set; get; } = new List<Instruction>();
+
+        public Recipe()
+        {
+
+        }
+
+
+        public Recipe(Recipe r)
+        {
+            title = r.title;
+            duration = r.duration;
+            difficulty = r.difficulty;
+            nutValues = r.nutValues;
+            imagePath = r.imagePath;
+        }
+
+        public Recipe( string title, char original, int duration, char difficulty, string nutValues, string imagePath)
+        {
+            this.title = title;
+            this.original = original;
+            this.duration = duration;
+            this.difficulty = difficulty;
+            this.nutValues = nutValues;
+            this.imagePath = imagePath;
+        }
     }
 }

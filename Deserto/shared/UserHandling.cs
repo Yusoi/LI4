@@ -40,6 +40,13 @@ namespace Models.shared
             return ingredients;
         }
 
+        public User getUser(string Email)
+        {
+             var user = _context.User.Where(b => b.Email == Email).FirstOrDefault();
+            if (user == null) return null;
+            User returnedUser = (User) user;
+            return returnedUser;
+        }
         public bool validateUser(User user)
         {
             user.Password = MyHelpers.HashPassword(user.Password);

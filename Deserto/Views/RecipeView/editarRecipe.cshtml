@@ -1,0 +1,137 @@
+﻿<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+@model Deserto.Models.Recipe
+
+@{
+    ViewData["Title"] = "editarRecipe";
+
+}
+
+@using (Html.BeginForm())
+{
+    <h3>Editar Receita</h3>
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.recipeID)
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.imagePath)
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.difficulty)
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.nutValues)
+
+        <div class="form-group">
+            <h3>Título</h3>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.title, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+
+                <h3>Duração</h3>
+
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.duration, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.duration, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+
+        </div>
+
+        <h3>Ingredientes</h3>
+        <div id="IngList">
+            @for (int i = 0; i < Model.ingredients.Count; i++)
+            {
+                <div class="IngRow">
+                    @Html.HiddenFor(m => m.ingredients[i].ingredientID)
+                    @Html.TextBoxFor(m => m.ingredients[i].name, new { @class = "ingName" })
+                    @Html.TextBoxFor(m => m.ingredients[i].quant, new { @class = "ingQuant" })
+                    <a href="javascript:void(0);" class="remRow">Remove</a>
+                </div>
+            }
+        </div>
+        <p>
+            <a href="javascript:void(0);" class="addRow">Add row</a>
+        </p>
+
+        <h3>Instrcoes</h3>
+        <div id="InsList">
+            @for (int i = 0; i < Model.instrucoes.Count; i++)
+            {
+                <div class="InsRow">
+                    @Html.HiddenFor(m => m.instrucoes[i].instructionID)
+                    @Html.TextBoxFor(m => m.instrucoes[i].text, new { @class = "insText" })
+                    <a href="javascript:void(0);" class="remRow">Remove</a>
+
+                </div>
+            }
+        </div>
+        <p>
+            <a href="javascript:void(0);" class="addRowI">Add row</a>
+        </p>
+        <div class="form-group">
+            <input name="command" type="submit" value="Submit" />
+        </div>
+    </div>
+    <hr />
+
+
+}
+
+<script type="text/javascript" src="../../Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+$(".addRow").click(function () {
+ 
+    var rowCount = $('.IngRow').length;
+    $("#IngList").append('<div class="IngRow"><input type="text" name="ingredients[' + rowCount + '].name" class="ingName" /> <input type="text" name="ingredients[' + rowCount + '].quant" class="ingQuant" /> <a href="javascript:void(0);" class="remRow">Remove</a></div>');
+    });
+
+        $("#IngList").on('click', '.remRow', function () {
+
+            $(this).closest('.IngRow').remove();
+
+            $('.ingName').each(function (index) {
+                $(this).attr('name', 'ingredients[' + index + '].name');
+            });
+
+
+            $('.ingQuant').each(function (index) {
+                $(this).attr('name', 'ingredients[' + index + '].quant');
+            });
+        })
+    });
+
+</script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $(".addRowI").click(function () {
+
+            var rowCounti = $('.InsRow').length;
+            $("#InsList").append('<div class="InsRow"><input type="text" name="instrucoes[' + rowCounti + '].name" class="insText" /> <a href="javascript:void(0);" class="remRowi">Remove</a></div>');
+        });
+
+        $("#InsList").on('click', '.remRowi', function () {
+
+            $(this).closest('.InsRow').remove();
+
+            $('.insText').each(function (index) {
+                $(this).attr('name', 'instrucoes[' + index + '].text');
+            });
+        })
+    });
+
+</script>
