@@ -20,7 +20,7 @@ namespace Deserto.Models
         [NotMapped]
         [JsonIgnore]
         public virtual Recipe recipe { get; set; }
-        public char rating { get; set; }
+        public char? rating { get; set; }
 
         public UserRecipe() { }
 

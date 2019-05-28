@@ -31,6 +31,9 @@ namespace Deserto.Models
         [JsonIgnore]
         public virtual ICollection<UserRecipe> UserRecipes { get; set; }
 
+        [NotMapped]
+        [JsonIgnore]
+        public char Rating { set; get; }
 
         public virtual ICollection<RecipeIngredient> RecipeIngredient { get; set; }
 

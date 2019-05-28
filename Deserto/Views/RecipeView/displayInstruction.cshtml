@@ -39,7 +39,9 @@
     else
     {
         <dt class="col-sm-2">
-            <p>"FINITOOO"</p>
+            <p>"Receita Termianda"</p>
+            <p><a asp-controller="RecipeView" asp-action="Rating" class="tm-nav-item-link">Terminar Receita</a></p>
+            <a asp-action="Rating" asp-route-id="@ViewBag.re">Delete</a>
         </dt>
     }
 </div>

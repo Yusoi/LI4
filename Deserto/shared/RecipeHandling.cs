@@ -161,6 +161,14 @@ namespace Models.shared
             }
         }
 
+        public void setRecipeRating(int UserID, int RecipeID,char rating)
+        {
+           var userRecipe = _context.UserRecipe.Find(UserID, RecipeID);
+            if (userRecipe == null) return;
+            userRecipe.rating = rating;
+            _context.SaveChanges();
+        }
+
         public void addUpdatedRecipe(Recipe oldr,int id)
         {
             /*  oldr.imagePath = "DD";

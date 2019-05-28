@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Deserto.Models;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models.shared;
@@ -90,8 +91,7 @@ namespace Deserto.Controllers
                     Thread.CurrentPrincipal = principal;
 
                     await HttpContext.SignInAsync(principal);
-                    return RedirectToAction("getRecipes", "RecipeView");
-
+                    return RedirectToAction("UserPage", "UserView");
 
                 }
                 else
@@ -99,6 +99,13 @@ namespace Deserto.Controllers
                     TempData["UserLoginFailed"] = "Login Failed.Please enter correct credentials";
                 }
             }
+            return View();
+        }
+        [Authorize]
+        [HttpGet]
+        public IActionResult UserPage()
+        {
+
             return View();
         }
 

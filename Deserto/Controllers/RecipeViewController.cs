@@ -33,17 +33,21 @@ namespace Deserto.Controllers
             Recipe recipe = recipeHandling.getRecipe(4);
             return View(recipe);
         }
+        [Authorize]
         [HttpGet]
         public IActionResult displayInstruction(int i)
         {
             TempData["ordernr"] = 0;
             List<Instruction> list = recipeHandling.getInstructions(4);
+            TempData["RecipeID"] = 4;
+            TempData.Keep("RecipeID");
             return View(list.ElementAt(0));
         }
-
+        [Authorize]
         [HttpPost]
         public IActionResult displayInstruction(Instruction r)
         {
+
             int ind = (int)TempData["ordernr"];
             TempData["ordernr"] = ind + 1;
             TempData.Keep("ordernr");
@@ -57,12 +61,44 @@ namespace Deserto.Controllers
         }
         [Authorize]
         [HttpGet]
+        public IActionResult Rating()
+        {
+            Console.WriteLine("CARAHHDFHSDHHSDHFHHFHFFaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
+            return View(recipeHandling.getRecipe(4));
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Rating(Recipe recipe)
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            int userid = Int32.Parse(identity.Name);
+            Console.WriteLine("CARAHHDFHSDHHSDHFHHFHFFaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + "    " + recipe.Rating);
+            recipeHandling.setRecipeRating(userid, recipe.recipeID, recipe.Rating);
+            return View();
+        }
+
+
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult End(int rating)
+        {
+
+            return View();
+        }
+
+
+        [Authorize]
+        [HttpGet]
         public async Task<IActionResult> editarRecipe(int id)
         {
             Recipe recipe = recipeHandling.getRecipe(id);
             //Console.Write("INGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG  {0}",recipe.ingredients.Count());
             return View(recipe);
         }
+
         [Authorize]
         [HttpPost]
         public IActionResult editarRecipe(Recipe recipe)
