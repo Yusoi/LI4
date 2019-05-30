@@ -30,9 +30,31 @@ namespace Deserto.Controllers
             return View(users);
         }
 
-        public IActionResult getExludedIngredients()
+        public IActionResult getExcludedIngredients()
         {
-            List<Ingredient> ing = userHandling.getExcludedIngredients(1);
+            List<Ingredient> ing = userHandling.getExcludedIngredients(userHandling.getCurrentUser());
+            return View(ing);
+        }
+
+        public IActionResult getAllButExcludedIngredients()
+        {
+            List<Ingredient> ing = userHandling.getAllButExcludedIngredients(userHandling.getCurrentUser());
+            return View(ing);
+        }
+
+        [HttpPost]
+        public IActionResult addToExcludedIngredients([FromQuery] int ingredientID)
+        {
+            userHandling.addToExcludedIngredients(ingredientID);
+            List<Ingredient> ing = userHandling.getAllButExcludedIngredients(userHandling.getCurrentUser());
+            return View(ing);
+        }
+
+        [HttpDelete]
+        public IActionResult removeFromExcludedIngredients([FromQuery] int ingredientID)
+        {
+            userHandling.removeFromExcludedIngredients(ingredientID);
+            List<Ingredient> ing = userHandling.getExcludedIngredients(userHandling.getCurrentUser());
             return View(ing);
         }
 

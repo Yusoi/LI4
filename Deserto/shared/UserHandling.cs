@@ -40,6 +40,62 @@ namespace Models.shared
             return ingredients;
         }
 
+        public List<Ingredient> getAllButExcludedIngredients(int userID)
+        {
+            var user = _context.User.Find(userID);
+            if (user == null)
+            {
+                return null;
+            }
+            List<ExcludedIngredients> excludedIngredients = _context.ExcludedIngredients.Where(s => s.userID == userID).ToList();
+            List<Ingredient> ingredients = _context.Ingredient.ToList();
+            List<Ingredient> nonExcludedIngredients = new List<Ingredient>();
+            foreach(Ingredient i in ingredients)
+            {
+                var excluded = false;
+
+                foreach(ExcludedIngredients ei in excludedIngredients)
+                {
+                    if(i.ingredientID == ei.ingredientID)
+                    {
+                        excluded = true;
+                        break;
+                    }
+                }
+
+                if(excluded == false)
+                {
+                    nonExcludedIngredients.Add(i);
+                }
+            }
+
+            return nonExcludedIngredients;
+        }
+
+        [HttpPost]
+        public void addToExcludedIngredients(int ingredientID)
+        {
+            ExcludedIngredients excludedIngredients = new ExcludedIngredients();
+            excludedIngredients.ingredientID = ingredientID;
+            excludedIngredients.userID = this.getCurrentUser();
+            _context.ExcludedIngredients.Add(excludedIngredients);
+            _context.SaveChanges();
+            //return new CreatedResult($"/api/recipe/{excludedIngredients.userID}/{excludedIngredients.ingredientID}", excludedIngredients);
+        }
+
+        [HttpDelete]
+        public void removeFromExcludedIngredients(int ingredientID)
+        {
+            var excludedIngredients = _context.ExcludedIngredients.Find(this.getCurrentUser(), ingredientID);
+
+            if (excludedIngredients == null)
+            {
+                return;
+            }
+            _context.ExcludedIngredients.Remove(excludedIngredients);
+            _context.SaveChanges();
+        }
+
         public User getUser(string Email)
         {
              var user = _context.User.Where(b => b.Email == Email).FirstOrDefault();
@@ -65,6 +121,12 @@ namespace Models.shared
             _context.User.Add(user);
             _context.SaveChanges();
             return true;
+        }
+
+        public int getCurrentUser()
+        {
+            //TODO
+            return 1;
         }
 
     }
