@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Deserto.Models
 {
-    public class Task
+    public class F
     {
         [Key]
         public int codigo { set; get; }

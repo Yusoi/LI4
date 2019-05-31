@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using Deserto.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Speech;
 using Models.shared;
+using System.Speech.Synthesis;
 
 namespace Deserto.Controllers
 {
@@ -59,7 +61,7 @@ namespace Deserto.Controllers
                 ind = ind- 1;
             TempData["ordernr"] = ind;
             TempData.Keep("ordernr");
-            
+
             List <Instruction> list = recipeHandling.getInstructions(4);
             Console.WriteLine("CARAHHDFHSDHHSDHFHHFHFFaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + TempData["ordernr"] + "IND + 2 = " + (ind + 2)+ "conoutt = "+list.Count());
             if (list.Count() != ind + 1)
@@ -69,6 +71,9 @@ namespace Deserto.Controllers
             TempData.Keep("button");
             return View(list.ElementAt((int)TempData["ordernr"]));
         }
+
+
+
         [Authorize]
         [HttpGet]
         public IActionResult Rating()
