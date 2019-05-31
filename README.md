@@ -11,11 +11,14 @@ Funcionalidades por Fazer
 	PREMIUM - Editar receita no livro de receitas (Falta o botão de Reset.)
 	Melhorar secçao dos requisitos - Bernando
 	Voz?
-
 	
-Funcionalidades Completas
+	
+	
+	Funcionalidades Completas
 	Registo
 	Ver preferências
 	Ver livro de receitas 
 	Terminar o "fazer receita" (andar para trás/avaliar/explicaçao de termos... ver requisitos) - Se possivel testem e metam feedback
 	Login
+	
+
