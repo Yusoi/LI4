@@ -32,30 +32,36 @@ namespace Deserto.Controllers
 
         public IActionResult getExcludedIngredients()
         {
-            List<Ingredient> ing = userHandling.getExcludedIngredients(userHandling.getCurrentUser());
+            var identity = (ClaimsIdentity)User.Identity;
+            int userID = Int32.Parse(identity.Name);
+            List<Ingredient> ing = userHandling.getExcludedIngredients(userID);
             return View(ing);
         }
 
         public IActionResult getAllButExcludedIngredients()
         {
-            List<Ingredient> ing = userHandling.getAllButExcludedIngredients(userHandling.getCurrentUser());
+            var identity = (ClaimsIdentity)User.Identity;
+            int userID = Int32.Parse(identity.Name);
+            List<Ingredient> ing = userHandling.getAllButExcludedIngredients(userID);
             return View(ing);
         }
 
-        [HttpPost]
-        public IActionResult addToExcludedIngredients([FromQuery] int ingredientID)
+        public IActionResult addToExcludedIngredients(int ingredientID)
         {
-            userHandling.addToExcludedIngredients(ingredientID);
-            List<Ingredient> ing = userHandling.getAllButExcludedIngredients(userHandling.getCurrentUser());
-            return View(ing);
+            var identity = (ClaimsIdentity)User.Identity;
+            int userID = Int32.Parse(identity.Name);
+            userHandling.addToExcludedIngredients(ingredientID,userID);
+            List<Ingredient> ing = userHandling.getAllButExcludedIngredients(userID);
+            return RedirectToAction("getAllButExcludedIngredients");
         }
 
-        [HttpDelete]
-        public IActionResult removeFromExcludedIngredients([FromQuery] int ingredientID)
+        public IActionResult removeFromExcludedIngredients(int ingredientID)
         {
-            userHandling.removeFromExcludedIngredients(ingredientID);
-            List<Ingredient> ing = userHandling.getExcludedIngredients(userHandling.getCurrentUser());
-            return View(ing);
+            var identity = (ClaimsIdentity)User.Identity;
+            int userID = Int32.Parse(identity.Name);
+            userHandling.removeFromExcludedIngredients(ingredientID,userID);
+            List<Ingredient> ing = userHandling.getExcludedIngredients(userID);
+            return RedirectToAction("getExcludedIngredients");
         }
 
         [HttpGet]

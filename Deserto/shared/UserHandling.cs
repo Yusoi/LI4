@@ -6,6 +6,7 @@ using Deserto.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 using Deserto.shared;
+using System.Security.Claims;
 
 namespace Models.shared
 {
@@ -73,20 +74,20 @@ namespace Models.shared
         }
 
         [HttpPost]
-        public void addToExcludedIngredients(int ingredientID)
+        public void addToExcludedIngredients(int ingredientID, int userID)
         {
             ExcludedIngredients excludedIngredients = new ExcludedIngredients();
             excludedIngredients.ingredientID = ingredientID;
-            excludedIngredients.userID = this.getCurrentUser();
+            excludedIngredients.userID = userID;
             _context.ExcludedIngredients.Add(excludedIngredients);
             _context.SaveChanges();
             //return new CreatedResult($"/api/recipe/{excludedIngredients.userID}/{excludedIngredients.ingredientID}", excludedIngredients);
         }
 
         [HttpDelete]
-        public void removeFromExcludedIngredients(int ingredientID)
+        public void removeFromExcludedIngredients(int ingredientID, int userID)
         {
-            var excludedIngredients = _context.ExcludedIngredients.Find(this.getCurrentUser(), ingredientID);
+            var excludedIngredients = _context.ExcludedIngredients.Find(userID, ingredientID);
 
             if (excludedIngredients == null)
             {
@@ -121,12 +122,6 @@ namespace Models.shared
             _context.User.Add(user);
             _context.SaveChanges();
             return true;
-        }
-
-        public int getCurrentUser()
-        {
-            //TODO
-            return 1;
         }
 
     }
