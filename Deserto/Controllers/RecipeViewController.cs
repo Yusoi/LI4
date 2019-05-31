@@ -38,33 +38,42 @@ namespace Deserto.Controllers
         public IActionResult displayInstruction(int i)
         {
             TempData["ordernr"] = 0;
+            TempData.Keep("ordernr");
             List<Instruction> list = recipeHandling.getInstructions(4);
             TempData["RecipeID"] = 4;
+            TempData["button"] = "False";
             TempData.Keep("RecipeID");
+            TempData.Keep("button");
             return View(list.ElementAt(0));
         }
         [Authorize]
         [HttpPost]
-        public IActionResult displayInstruction(Instruction r)
+        public IActionResult displayInstruction(string ordem)
         {
-
+            TempData["button"] = "False";
+            TempData.Keep("button");
             int ind = (int)TempData["ordernr"];
-            TempData["ordernr"] = ind + 1;
+            if (ordem.Equals("Next"))
+                ind = ind + 1;
+            if (ordem.Equals("Back"))
+                ind = ind- 1;
+            TempData["ordernr"] = ind;
             TempData.Keep("ordernr");
-            List<Instruction> list = recipeHandling.getInstructions(4);
-
-            if (list.Count() != ind + 2)
+            
+            List <Instruction> list = recipeHandling.getInstructions(4);
+            Console.WriteLine("CARAHHDFHSDHHSDHFHHFHFFaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + TempData["ordernr"] + "IND + 2 = " + (ind + 2)+ "conoutt = "+list.Count());
+            if (list.Count() != ind + 1)
                 return View(list.ElementAt((int)TempData["ordernr"]));
 
-            TempData["button"] = "false";
+            TempData["button"] = "True";
+            TempData.Keep("button");
             return View(list.ElementAt((int)TempData["ordernr"]));
         }
         [Authorize]
         [HttpGet]
         public IActionResult Rating()
         {
-            Console.WriteLine("CARAHHDFHSDHHSDHFHHFHFFaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-
+           
             return View(recipeHandling.getRecipe(4));
         }
 

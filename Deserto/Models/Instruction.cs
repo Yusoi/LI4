@@ -21,7 +21,12 @@ namespace Deserto.Models
         [NotMapped]
         [JsonIgnore]
         public int order;
+        [NotMapped]
+        [JsonIgnore]
+        public List<Explanation> explanations { get; set; } = new List<Explanation>();
         public Instruction() { }
+
+
         public Instruction(Instruction c)
         {
             this.text = c.text;

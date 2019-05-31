@@ -85,7 +85,18 @@ namespace Models.shared
                 list.Add(i);
 
             }
-            List<Instruction> SortedList = list.OrderBy(o => o.order).ToList();
+
+            foreach (Instruction i in list)
+            {
+                var insExp = _context.InstructionExplanation.Where(s => s.instructionID == i.instructionID);
+                if(insExp!=null)
+                foreach (InstructionExplanation ie in insExp)
+                {
+                    Explanation explanation = (_context.Explanation.Find(ie.explanationID));
+                    i.explanations.Add(explanation);
+                }
+            }
+                List<Instruction> SortedList = list.OrderBy(o => o.order).ToList();
             return SortedList;
         }
 
