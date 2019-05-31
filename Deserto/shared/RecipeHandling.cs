@@ -24,7 +24,6 @@ namespace Models.shared
         {
             //Encontra todos os recipes originais
             List<Recipe> recipes = _context.Recipe.Where(r => r.original.Equals('1')).ToList();
-            //Adiciona a TempData todos os recipes que pertencem ao livro de receitas do utilizador
 
             return recipes;
         }
@@ -49,7 +48,7 @@ namespace Models.shared
 
         public Boolean belongsToRecipeBook(int recipeID, int userID)
         {
-            if(_context.UserRecipe.Where(r => r.recipeID == recipeID && r.userID == userID).Count() != 0){
+            if(_context.RecipeBook.Where(r => r.recipeID == recipeID && r.userID == userID).Count() != 0){
                 return true;
             } else
             {
@@ -90,7 +89,19 @@ namespace Models.shared
             return recipe;
         }
 
-        public void removeRecipeDoLivro( int receitaID,int userID)
+        public void addToRecipeBook (int recipeID, int userID)
+        {
+            var recipe = _context.Recipe.Find(recipeID);
+            if (recipe == null) return;
+
+            if(_context.RecipeBook.Find(recipeID,userID) == null)
+            {
+                _context.RecipeBook.Add(new RecipeBook(recipeID, userID));
+                _context.SaveChanges();
+            }
+        }
+
+        public void removeFromRecipeBook( int receitaID,int userID)
         {
             var recipe = _context.Recipe.Find(receitaID);
 
@@ -99,8 +110,8 @@ namespace Models.shared
                 return;
             }
 
-            var aux = _context.UserRecipe.Find(userID, receitaID);
-            _context.UserRecipe.Remove(aux);
+            var aux = _context.RecipeBook.Find(receitaID,userID);
+            _context.RecipeBook.Remove(aux);
             _context.SaveChanges();
 
             if (recipe.original == '0')
@@ -110,6 +121,8 @@ namespace Models.shared
                 _context.SaveChanges();
             }
         }
+
+        
 
         public List<Instruction> getInstructions(int recipeID)
         {

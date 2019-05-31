@@ -35,9 +35,8 @@ namespace Deserto.Controllers
                 recipes = recipeHandling.getRecipes(search,userID);
             }
 
-            Console.WriteLine(recipes.ToString());
-
             //Verifica se pertence ao livro de receitas para mostrar o "remove from recipe book"
+            //TODO matching com cópias da receita
             foreach (Recipe r in recipes)
             {
                 if (recipeHandling.belongsToRecipeBook(r.recipeID, userID))
@@ -48,6 +47,25 @@ namespace Deserto.Controllers
             }
 
             return View(recipes);
+        }
+
+        public IActionResult addToRecipeBook(int recipeID)
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            int userID = Int32.Parse(identity.Name);
+
+            recipeHandling.addToRecipeBook(recipeID, userID);
+            return RedirectToAction("getRecipes");
+        }
+
+        public IActionResult removeFromRecipeBook(int recipeID)
+        {
+            //TODO atualizar a página corretamente
+            var identity = (ClaimsIdentity)User.Identity;
+            int userID = Int32.Parse(identity.Name);
+
+            recipeHandling.removeFromRecipeBook(recipeID, userID);
+            return RedirectToAction("getRecipes");
         }
 
         public IActionResult getUserRecipes()
@@ -157,7 +175,7 @@ namespace Deserto.Controllers
         {
             var identity = (ClaimsIdentity)User.Identity;
             int userid = Int32.Parse(identity.Name);
-            recipeHandling.removeRecipeDoLivro(id, userid);
+            recipeHandling.removeFromRecipeBook(id, userid);
             return RedirectToAction("getRecipes", "RecipeView");
         }
 
