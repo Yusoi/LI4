@@ -30,6 +30,11 @@ namespace Deserto.Controllers
             return View(users);
         }
 
+        /**
+         * Função que retorna a view correspondente a todos os 
+         * ingredientes excluídos pelo utilizador que se encontra
+         * logged in de momento.
+         */
         public IActionResult getExcludedIngredients()
         {
             var identity = (ClaimsIdentity)User.Identity;
@@ -38,6 +43,11 @@ namespace Deserto.Controllers
             return View(ing);
         }
 
+        /**
+         * Função que retorna a view correspondente a todos os 
+         * ingredientes não excluídos pelo utilizador que se 
+         * encontra logged in de momento.
+         */
         public IActionResult getAllButExcludedIngredients()
         {
             var identity = (ClaimsIdentity)User.Identity;
@@ -51,7 +61,6 @@ namespace Deserto.Controllers
             var identity = (ClaimsIdentity)User.Identity;
             int userID = Int32.Parse(identity.Name);
             userHandling.addToExcludedIngredients(ingredientID,userID);
-            List<Ingredient> ing = userHandling.getAllButExcludedIngredients(userID);
             return RedirectToAction("getAllButExcludedIngredients");
         }
 
@@ -60,7 +69,6 @@ namespace Deserto.Controllers
             var identity = (ClaimsIdentity)User.Identity;
             int userID = Int32.Parse(identity.Name);
             userHandling.removeFromExcludedIngredients(ingredientID,userID);
-            List<Ingredient> ing = userHandling.getExcludedIngredients(userID);
             return RedirectToAction("getExcludedIngredients");
         }
 

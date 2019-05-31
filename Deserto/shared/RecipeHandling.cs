@@ -22,6 +22,43 @@ namespace Models.shared
 
         public List<Recipe> getRecipes(int userID)
         {
+            //Encontra todos os recipes originais
+            List<Recipe> recipes = _context.Recipe.Where(r => r.original.Equals('1')).ToList();
+
+            return recipes;
+        }
+
+        public List<Recipe> getRecipes(string search, int userID)
+        {
+            List<Recipe> recipes = _context.Recipe.Where(r => r.original.Equals('1')).ToList();
+
+            if (!search.Equals(""))
+            {
+                foreach (Recipe r in recipes)
+                {
+                    if (!r.title.Contains(search))
+                    {
+                        recipes.Remove(r);
+                    }
+                }
+            }
+
+            return recipes;
+        }
+
+        public Boolean belongsToRecipeBook(int recipeID, int userID)
+        {
+            if(_context.RecipeBook.Where(r => r.recipeID == recipeID && r.userID == userID).Count() != 0){
+                return true;
+            } else
+            {
+                return false;
+            }
+            
+        }
+
+        public List<Recipe> getUserRecipes(int userID)
+        {
             var user = _context.User.Find(userID);
             if (user == null)
             {
@@ -52,7 +89,19 @@ namespace Models.shared
             return recipe;
         }
 
-        public void removeRecipeDoLivro( int receitaID,int userID)
+        public void addToRecipeBook (int recipeID, int userID)
+        {
+            var recipe = _context.Recipe.Find(recipeID);
+            if (recipe == null) return;
+
+            if(_context.RecipeBook.Find(recipeID,userID) == null)
+            {
+                _context.RecipeBook.Add(new RecipeBook(recipeID, userID));
+                _context.SaveChanges();
+            }
+        }
+
+        public void removeFromRecipeBook( int receitaID,int userID)
         {
             var recipe = _context.Recipe.Find(receitaID);
 
@@ -61,8 +110,8 @@ namespace Models.shared
                 return;
             }
 
-            var aux = _context.UserRecipe.Find(userID, receitaID);
-            _context.UserRecipe.Remove(aux);
+            var aux = _context.RecipeBook.Find(receitaID,userID);
+            _context.RecipeBook.Remove(aux);
             _context.SaveChanges();
 
             if (recipe.original == '0')
@@ -72,6 +121,8 @@ namespace Models.shared
                 _context.SaveChanges();
             }
         }
+
+        
 
         public List<Instruction> getInstructions(int recipeID)
         {

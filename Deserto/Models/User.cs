@@ -52,6 +52,8 @@ namespace Deserto.Models
                 .HasKey(pc => new { pc.userID, pc.ingredientID });
             modelBuilder.Entity<UserRecipe>()
                 .HasKey(pc => new { pc.userID, pc.recipeID });
+            modelBuilder.Entity<RecipeBook>()
+                .HasKey(pc => new { pc.recipeID, pc.userID });
 
 
             modelBuilder.Entity<UserRecipe>()
@@ -81,6 +83,7 @@ namespace Deserto.Models
         public DbSet<RecipeIngredient> RecipeIngredient { get; set; }
         public DbSet<RecipeInstruction> RecipeInstruction { get; set; }
         public DbSet<InstructionExplanation> InstructionExplanation { get; set; }
+        public DbSet<RecipeBook> RecipeBook { get; set; }
         public int step ;
 
     }

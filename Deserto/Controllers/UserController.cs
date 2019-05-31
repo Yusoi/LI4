@@ -63,7 +63,7 @@ namespace Deserto
             return NoContent();
         }
 
-        [HttpGet("getrecipes/{userID}")]
+        [HttpGet("getuserrecipes/{userID}")]
         public ActionResult getUserRecipes(int userID)
         {
             var user = _context.User.Find(userID);

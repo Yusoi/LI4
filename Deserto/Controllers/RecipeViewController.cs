@@ -22,12 +22,60 @@ namespace Deserto.Controllers
             recipeHandling = new RecipeHandling(context);
         }
 
-        public IActionResult getRecipes()
+        [HttpGet("{search?}")]
+        public IActionResult getRecipes(string search)
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            int userID = Int32.Parse(identity.Name);
+
+            List<Recipe> recipes;
+            if (search == null)
+            {
+                recipes = recipeHandling.getRecipes(userID);
+            } else
+            {
+                recipes = recipeHandling.getRecipes(search,userID);
+            }
+
+            //Verifica se pertence ao livro de receitas para mostrar o "remove from recipe book"
+            //TODO matching com cópias da receita
+            foreach (Recipe r in recipes)
+            {
+                if (recipeHandling.belongsToRecipeBook(r.recipeID, userID))
+                {
+                    TempData[r.recipeID.ToString()] = 0;
+                    TempData.Keep();
+                }
+            }
+
+            return View(recipes);
+        }
+
+        public IActionResult addToRecipeBook(int recipeID)
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            int userID = Int32.Parse(identity.Name);
+
+            recipeHandling.addToRecipeBook(recipeID, userID);
+            return RedirectToAction("getRecipes");
+        }
+
+        public IActionResult removeFromRecipeBook(int recipeID)
+        {
+            //TODO atualizar a página corretamente
+            var identity = (ClaimsIdentity)User.Identity;
+            int userID = Int32.Parse(identity.Name);
+
+            recipeHandling.removeFromRecipeBook(recipeID, userID);
+            return RedirectToAction("getRecipes");
+        }
+
+        public IActionResult getUserRecipes()
         {
             var identity = (ClaimsIdentity)User.Identity;
             int userid = Int32.Parse(identity.Name);
 
-            List<Recipe> recipes = recipeHandling.getRecipes(userid);
+            List<Recipe> recipes = recipeHandling.getUserRecipes(userid);
             return View(recipes);
         }
         public IActionResult getRecipe()
@@ -132,7 +180,7 @@ namespace Deserto.Controllers
         {
             var identity = (ClaimsIdentity)User.Identity;
             int userid = Int32.Parse(identity.Name);
-            recipeHandling.removeRecipeDoLivro(id, userid);
+            recipeHandling.removeFromRecipeBook(id, userid);
             return RedirectToAction("getRecipes", "RecipeView");
         }
 
