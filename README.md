@@ -2,7 +2,6 @@
 Funcionalidades por Fazer
 
 	Logout - Filipe 
-	Editar Preferências - Bernardo
 	Interface Gráfica - melhorar - Nuno
 	
 	Pesquisar Receitas - Mariana 
@@ -17,6 +16,7 @@ Funcionalidades por Fazer
 	Funcionalidades Completas
 	Registo
 	Ver preferências
+	Editar Preferências
 	Ver livro de receitas 
 	Terminar o "fazer receita" (andar para trás/avaliar/explicaçao de termos... ver requisitos) - Se possivel testem e metam feedback
 	Login
