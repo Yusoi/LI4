@@ -22,6 +22,44 @@ namespace Models.shared
 
         public List<Recipe> getRecipes(int userID)
         {
+            //Encontra todos os recipes originais
+            List<Recipe> recipes = _context.Recipe.Where(r => r.original.Equals('1')).ToList();
+            //Adiciona a TempData todos os recipes que pertencem ao livro de receitas do utilizador
+
+            return recipes;
+        }
+
+        public List<Recipe> getRecipes(string search, int userID)
+        {
+            List<Recipe> recipes = _context.Recipe.Where(r => r.original.Equals('1')).ToList();
+
+            if (!search.Equals(""))
+            {
+                foreach (Recipe r in recipes)
+                {
+                    if (!r.title.Contains(search))
+                    {
+                        recipes.Remove(r);
+                    }
+                }
+            }
+
+            return recipes;
+        }
+
+        public Boolean belongsToRecipeBook(int recipeID, int userID)
+        {
+            if(_context.UserRecipe.Where(r => r.recipeID == recipeID && r.userID == userID).Count() != 0){
+                return true;
+            } else
+            {
+                return false;
+            }
+            
+        }
+
+        public List<Recipe> getUserRecipes(int userID)
+        {
             var user = _context.User.Find(userID);
             if (user == null)
             {

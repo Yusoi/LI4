@@ -20,12 +20,42 @@ namespace Deserto.Controllers
             recipeHandling = new RecipeHandling(context);
         }
 
-        public IActionResult getRecipes()
+        [HttpGet("{search?}")]
+        public IActionResult getRecipes(string search)
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            int userID = Int32.Parse(identity.Name);
+
+            List<Recipe> recipes;
+            if (search == null)
+            {
+                recipes = recipeHandling.getRecipes(userID);
+            } else
+            {
+                recipes = recipeHandling.getRecipes(search,userID);
+            }
+
+            Console.WriteLine(recipes.ToString());
+
+            //Verifica se pertence ao livro de receitas para mostrar o "remove from recipe book"
+            foreach (Recipe r in recipes)
+            {
+                if (recipeHandling.belongsToRecipeBook(r.recipeID, userID))
+                {
+                    TempData[r.recipeID.ToString()] = 0;
+                    TempData.Keep();
+                }
+            }
+
+            return View(recipes);
+        }
+
+        public IActionResult getUserRecipes()
         {
             var identity = (ClaimsIdentity)User.Identity;
             int userid = Int32.Parse(identity.Name);
 
-            List<Recipe> recipes = recipeHandling.getRecipes(userid);
+            List<Recipe> recipes = recipeHandling.getUserRecipes(userid);
             return View(recipes);
         }
         public IActionResult getRecipe()

@@ -4,65 +4,62 @@
     ViewData["Title"] = "getRecipes";
 }
 
-<h1>Lista de Receitas</h1>
+<h1>Receitas</h1>
 
-<p>
-    <a asp-action="Create">Criar Nova</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.title)
+                Título
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.original)
+                Duração
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.duration)
+                Dificuldade
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.difficulty)
+                Valores Nutricionais
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.nutValues)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.imagePath)
-            </th>
+            <th/>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.original)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.duration)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.difficulty)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.nutValues)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.imagePath)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.recipeID">Detalhes</a> |
-                <a asp-action="Delete" asp-route-id="@item.recipeID">Remover</a>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.duration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.difficulty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nutValues)
+                </td>
+                <td>
+                    <!-- Display da imagem-->
+                    @Html.DisplayFor(modelItem => item.imagePath)
+                </td>
+                <td>
+                    @if (TempData[item.recipeID.ToString()] != null)
+                    {
+                        <a asp-controller="RecipeView" asp-action="removeFromRecipeBook" asp-route-id="@item.recipeID">Remover do Livro de Receitas</a>
+                    }
+                    else
+                    {
+                        <a asp-action="RecipeView" asp-action="addToRecipeBook" asp-route-id="@item.recipeID">Adicionar ao Livro de Receitas</a>
+                    }
+                    |
+                    <a asp-controller="RecipeView" asp-action="getRecipe" asp-route-id="@item.recipeID">Ver Receita</a>
 
-                <p>
-                <a asp-action="editarRecipe" asp-route-id="@item.recipeID">Editar Receita</a>
-                </p>
-            </td>
-        </tr>
-}
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
