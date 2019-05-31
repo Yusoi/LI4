@@ -7,11 +7,21 @@
     function myFunction(term, expla) {
 
         var str = document.getElementById("intsr").innerHTML;
-        /**/
-        var res = str.replace(term, "<a data-target=\"#exampleModal\" data-toggle=\"modal\" data-whatever=\""+expla+"\" class=\"MainNavText\" id=\"MainNavHelp\" href = \"#exampleModal\" >" + term + "</a>");
-    /**/
-    document.getElementById("intsr").innerHTML = res;
-}
+
+        var res = str.replace(term, "<a data-target=\"#exampleModal\" data-toggle=\"modal\" data-whatever=\"" + expla + "\" class=\"MainNavText\" id=\"MainNavHelp\" href = \"#exampleModal\" >" + term + "</a>");
+
+        document.getElementById("intsr").innerHTML = res;
+
+    }
+</script>
+
+
+<script>
+    function voice(voice) {
+
+        var msg = new SpeechSynthesisUtterance(voice);
+        window.speechSynthesis.speak(msg);
+    }
 </script>
 
 <h1>Instrução</h1>
@@ -40,10 +50,13 @@
 @foreach (var explanation in Model.explanations)
 {
     <script>
-    myFunction('@(explanation.term)','@(explanation.explanation)');
+        myFunction('@(explanation.term)', '@(explanation.explanation)');
     </script>
 
 }
+<input id="voiceButton " type="button" value="Repetir Som" onclick="voice('@(Model.text)');" />
+<script> voice('@(Model.text)');</script>
+
 
 
 
@@ -101,13 +114,14 @@
     </div>
 </div>
 
-<script>$('#exampleModal').on('show.bs.modal', function (event) {
+<script>
+    $('#exampleModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
-    var recipient = button.data('whatever') // Extract info from data-* attributes
+        var recipient = button.data('whatever') // Extract info from data-* attributes
 
         // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         var modal = $(this)
         modal.find('.modal-title').text('Explicação do termo selecionado')
-    modal.find('.modal-body').text(recipient)
+        modal.find('.modal-body').text(recipient)
     })</script>
