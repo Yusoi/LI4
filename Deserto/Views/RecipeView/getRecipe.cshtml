@@ -3,11 +3,8 @@
 @{
     ViewData["Title"] = "getRecipe";
 }
-
-<h1>getRecipe</h1>
-
 <div>
-    <h4>Recipe</h4>
+    <h4>Receita</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -49,9 +46,7 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.recipeID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.recipeID">Editar</a> |
+    <a asp-action="Index">Lista</a>
     <a asp-controller="RecipeView" asp-action="displayInstruction">Confecionar Receita</a>
-
-
 </div>
