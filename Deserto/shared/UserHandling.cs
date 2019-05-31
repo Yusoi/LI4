@@ -6,6 +6,7 @@ using Deserto.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 using Deserto.shared;
+using System.Security.Claims;
 
 namespace Models.shared
 {
@@ -38,6 +39,62 @@ namespace Models.shared
             }
 
             return ingredients;
+        }
+
+        public List<Ingredient> getAllButExcludedIngredients(int userID)
+        {
+            var user = _context.User.Find(userID);
+            if (user == null)
+            {
+                return null;
+            }
+            List<ExcludedIngredients> excludedIngredients = _context.ExcludedIngredients.Where(s => s.userID == userID).ToList();
+            List<Ingredient> ingredients = _context.Ingredient.ToList();
+            List<Ingredient> nonExcludedIngredients = new List<Ingredient>();
+            foreach(Ingredient i in ingredients)
+            {
+                var excluded = false;
+
+                foreach(ExcludedIngredients ei in excludedIngredients)
+                {
+                    if(i.ingredientID == ei.ingredientID)
+                    {
+                        excluded = true;
+                        break;
+                    }
+                }
+
+                if(excluded == false)
+                {
+                    nonExcludedIngredients.Add(i);
+                }
+            }
+
+            return nonExcludedIngredients;
+        }
+
+        [HttpPost]
+        public void addToExcludedIngredients(int ingredientID, int userID)
+        {
+            ExcludedIngredients excludedIngredients = new ExcludedIngredients();
+            excludedIngredients.ingredientID = ingredientID;
+            excludedIngredients.userID = userID;
+            _context.ExcludedIngredients.Add(excludedIngredients);
+            _context.SaveChanges();
+            //return new CreatedResult($"/api/recipe/{excludedIngredients.userID}/{excludedIngredients.ingredientID}", excludedIngredients);
+        }
+
+        [HttpDelete]
+        public void removeFromExcludedIngredients(int ingredientID, int userID)
+        {
+            var excludedIngredients = _context.ExcludedIngredients.Find(userID, ingredientID);
+
+            if (excludedIngredients == null)
+            {
+                return;
+            }
+            _context.ExcludedIngredients.Remove(excludedIngredients);
+            _context.SaveChanges();
         }
 
         public User getUser(string Email)

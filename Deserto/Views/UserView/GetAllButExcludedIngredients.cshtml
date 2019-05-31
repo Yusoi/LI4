@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Deserto.Models.Ingredient>
+
+@{
+    ViewData["Title"] = "getAllButExcludedIngredients";
+}
+
+<h1>Escolha um ingrediente para adicionar à lista de ingredientes excluídos:</h1>
+
+
+<p>
+    <a asp-controller="UserView" asp-action="getExcludedIngredients">Remover ingredientes:</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Ingrediente
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    <a asp-controller="UserView" asp-action="addToExcludedIngredients" asp-route-ingredientID="@item.ingredientID">Adicionar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

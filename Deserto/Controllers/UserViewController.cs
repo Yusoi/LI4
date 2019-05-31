@@ -30,10 +30,38 @@ namespace Deserto.Controllers
             return View(users);
         }
 
-        public IActionResult getExludedIngredients()
+        public IActionResult getExcludedIngredients()
         {
-            List<Ingredient> ing = userHandling.getExcludedIngredients(1);
+            var identity = (ClaimsIdentity)User.Identity;
+            int userID = Int32.Parse(identity.Name);
+            List<Ingredient> ing = userHandling.getExcludedIngredients(userID);
             return View(ing);
+        }
+
+        public IActionResult getAllButExcludedIngredients()
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            int userID = Int32.Parse(identity.Name);
+            List<Ingredient> ing = userHandling.getAllButExcludedIngredients(userID);
+            return View(ing);
+        }
+
+        public IActionResult addToExcludedIngredients(int ingredientID)
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            int userID = Int32.Parse(identity.Name);
+            userHandling.addToExcludedIngredients(ingredientID,userID);
+            List<Ingredient> ing = userHandling.getAllButExcludedIngredients(userID);
+            return RedirectToAction("getAllButExcludedIngredients");
+        }
+
+        public IActionResult removeFromExcludedIngredients(int ingredientID)
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            int userID = Int32.Parse(identity.Name);
+            userHandling.removeFromExcludedIngredients(ingredientID,userID);
+            List<Ingredient> ing = userHandling.getExcludedIngredients(userID);
+            return RedirectToAction("getExcludedIngredients");
         }
 
         [HttpGet]

@@ -81,8 +81,8 @@ namespace Deserto
             return Ok(user);
         }
 
-        [HttpGet("getexcludedIngredients/{userID}")]
-        public ActionResult getuserExludedIngredients(int userID)
+        [HttpGet("GetExcludedIngredients/{userID}")]
+        public ActionResult getUserExcludedIngredients(int userID)
         {
             var user = _context.User.Find(userID);
             if (user == null)
