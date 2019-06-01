@@ -60,14 +60,33 @@ namespace Deserto.Controllers
             return RedirectToAction("getRecipes");
         }
 
-        public IActionResult removeFromRecipeBook(int recipeID)
+        //Remover apartir da Pesquisa de Receitas
+        public IActionResult removeFromRecipeBookRecipeSearch(int recipeID)
+        {
+            removeFromRecipeBook(recipeID);
+            return RedirectToAction("getRecipes");
+        }
+
+        //Remover apartir do Livro de Receitas
+        public IActionResult removeFromRecipeBookRecipeBook(int recipeID)
+        {
+            removeFromRecipeBook(recipeID);
+            return RedirectToAction("getUserRecipes");
+        }
+
+        public void removeFromRecipeBook(int recipeID)
         {
             //TODO atualizar a página corretamente
             var identity = (ClaimsIdentity)User.Identity;
             int userID = Int32.Parse(identity.Name);
 
             recipeHandling.removeFromRecipeBook(recipeID, userID);
-            return RedirectToAction("getRecipes");
+        }
+
+        public IActionResult viewRecipe(int recipeID)
+        {
+            Recipe recipe = recipeHandling.getRecipe(recipeID);
+            return View(recipe);
         }
 
         public IActionResult getUserRecipes()
@@ -78,11 +97,7 @@ namespace Deserto.Controllers
             List<Recipe> recipes = recipeHandling.getUserRecipes(userid);
             return View(recipes);
         }
-        public IActionResult getRecipe()
-        {
-            Recipe recipe = recipeHandling.getRecipe(4);
-            return View(recipe);
-        }
+
         [Authorize]
         [HttpGet]
         public IActionResult displayInstruction(int i)
@@ -154,9 +169,9 @@ namespace Deserto.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> editarRecipe(int id)
+        public async Task<IActionResult> editarRecipe(int recipeID)
         {
-            Recipe recipe = recipeHandling.getRecipe(id);
+            Recipe recipe = recipeHandling.getRecipe(recipeID);
             //Console.Write("INGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG  {0}",recipe.ingredients.Count());
             return View(recipe);
         }

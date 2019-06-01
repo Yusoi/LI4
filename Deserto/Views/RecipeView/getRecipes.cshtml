@@ -48,14 +48,14 @@
                 <td>
                     @if (TempData[item.recipeID.ToString()] != null)
                     {
-                        <a asp-controller="RecipeView" asp-action="removeFromRecipeBook" asp-route-recipeID="@item.recipeID">Remover do Livro de Receitas</a>
+                        <a asp-controller="RecipeView" asp-action="removeFromRecipeBookRecipeSearch" asp-route-recipeID="@item.recipeID">Remover do Livro de Receitas</a>
                     }
                     else
                     {
                         <a asp-controller="RecipeView" asp-action="addToRecipeBook" asp-route-recipeID="@item.recipeID">Adicionar ao Livro de Receitas</a>
                     }
                     |
-                    <a asp-controller="RecipeView" asp-action="getRecipe" asp-route-id="@item.recipeID">Ver Receita</a>
+                    <a asp-controller="RecipeView" asp-action="viewRecipe" asp-route-recipeID="@item.recipeID">Ver Receita</a>
 
                 </td>
             </tr>

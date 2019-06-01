@@ -13,22 +13,21 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.title)
+                Título
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.original)
+                Original
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.duration)
+                Duração
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.difficulty)
+                Dificuldade
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.nutValues)
+                Valor Nutricional
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.imagePath)
             </th>
             <th></th>
         </tr>
@@ -55,11 +54,11 @@
                 @Html.DisplayFor(modelItem => item.imagePath)
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.recipeID">Detalhes</a> |
-                <a asp-action="Delete" asp-route-id="@item.recipeID">Remover</a>
+                <a asp-controller="RecipeView" asp-action="viewRecipe" asp-route-recipeID="@item.recipeID">Ver Receita</a> |
+                <a asp-controller="RecipeView" asp-action="removeFromRecipeBookRecipeBook" asp-route-recipeID="@item.recipeID">Remover do Livro de Receitas</a>
 
                 <p>
-                <a asp-action="editarRecipe" asp-route-id="@item.recipeID">Editar Receita</a>
+                <a asp-controller="RecipeView" asp-action="editarRecipe" asp-route-recipeID="@item.recipeID">Editar Receita</a>
                 </p>
             </td>
         </tr>

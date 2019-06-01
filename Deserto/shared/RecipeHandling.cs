@@ -64,10 +64,10 @@ namespace Models.shared
             {
                 return null;
             }
-            var userrecipes = _context.UserRecipe.Where(s => s.userID == userID);
+            var userrecipes = _context.RecipeBook.Where(s => s.userID == userID);
             if (userrecipes == null) return null;
             List<Recipe> recipes = new List<Recipe>();
-            foreach (UserRecipe t in userrecipes)
+            foreach (RecipeBook t in userrecipes)
             {
                 recipes.Add(getRecipe(t.recipeID));
             }
