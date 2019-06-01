@@ -2,64 +2,137 @@
 
 @{
     ViewData["Title"] = "getRecipes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Receitas</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Título
-            </th>
-            <th>
-                Duração
-            </th>
-            <th>
-                Dificuldade
-            </th>
-            <th>
-                Valores Nutricionais
-            </th>
-            <th/>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.duration)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.difficulty)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.nutValues)
-                </td>
-                <td>
-                    <!-- Display da imagem-->
-                    @Html.DisplayFor(modelItem => item.imagePath)
-                </td>
-                <td>
-                    @if (TempData[item.recipeID.ToString()] != null)
-                    {
-                        <a asp-controller="RecipeView" asp-action="removeFromRecipeBookRecipeSearch" asp-route-recipeID="@item.recipeID">Remover do Livro de Receitas</a>
-                    }
-                    else
-                    {
-                        <a asp-controller="RecipeView" asp-action="addToRecipeBook" asp-route-recipeID="@item.recipeID">Adicionar ao Livro de Receitas</a>
-                    }
-                    |
-                    <a asp-controller="RecipeView" asp-action="viewRecipe" asp-route-recipeID="@item.recipeID">Ver Receita</a>
+    <title>DesertS</title>
+    <!--
+    Neaty HTML Template
+    http://www.templatemo.com/tm-501-neaty
+    -->
+    <!-- load stylesheets -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">  <!-- Google web font "Open Sans" -->
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">                                      <!-- Bootstrap style -->
+    <link rel="stylesheet" href="~/css/magnific-popup.css">                                     <!-- Magnific pop up style, http://dimsemenov.com/plugins/magnific-popup/ -->
+    <link rel="stylesheet" href="~/css/templatemo-style.css">                                   <!-- Templatemo style -->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <![endif]-->
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="tm-left-right-container">
+                <!-- Left column: logo and menu -->
+                <div class="tm-blue-bg tm-left-column">
+                    <div class="tm-logo-div text-xs-center">
+                        <img src="~/img/logo.png" alt="Logo">
+                        <h1 class="tm-site-name">DesertS</h1>
+                    </div>
+                </div> <!-- Left column: logo and menu -->
+                <!-- Right column: content -->
+                <div class="tm-right-column">
+                    <div class="tm-content-div">
+                        <!-- Welcome section -->
+                        <section id="welcome" class="tm-section">
+                            <header>
+                                <h2 class="tm-blue-text tm-welcome-title tm-margin-b-45">Receitas</h2>
+                            </header>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Título
+                                        </th>
+                                        <th>
+                                            Duração
+                                        </th>
+                                        <th>
+                                            Dificuldade
+                                        </th>
+                                        <th>
+                                            Valores Nutricionais
+                                        </th>
+                                        <th />
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.title)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.duration)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.difficulty)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.nutValues)
+                                            </td>
+                                            <td>
+                                                <!-- Display da imagem-->
+                                                @Html.DisplayFor(modelItem => item.imagePath)
+                                            </td>
+                                            <td>
+                                                @if (TempData[item.recipeID.ToString()] != null)
+                                                {
+                                                    <a asp-controller="RecipeView" asp-action="removeFromRecipeBookRecipeSearch" asp-route-recipeID="@item.recipeID">Remover do Livro de Receitas</a>
+                                                }
+                                                else
+                                                {
+                                                    <a asp-controller="RecipeView" asp-action="addToRecipeBook" asp-route-recipeID="@item.recipeID">Adicionar ao Livro de Receitas</a>
+                                                }
+                                                |
+                                                <a asp-controller="RecipeView" asp-action="viewRecipe" asp-route-recipeID="@item.recipeID">Ver Receita</a>
 
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </section>
+                        <footer>
+                            <p class="tm-copyright-p">
+                                Copyright &copy; <span class="tm-current-year">2019</span> Deserts
+                            </p>
+                        </footer>
+                    </div>
 
+                </div> <!-- Right column: content -->
+            </div>
+        </div> <!-- row -->
+    </div> <!-- container -->
+    <!-- load JS files -->
+    <script src="~/js/jquery-1.11.3.min.js"></script>             <!-- jQuery (https://jquery.com/download/) -->
+    <script src="~/js/jquery.magnific-popup.min.js"></script>     <!-- Magnific pop-up (http://dimsemenov.com/plugins/magnific-popup/) -->
+    <script src="~/js/jquery.singlePageNav.min.js"></script>      <!-- Single Page Nav (https://github.com/ChrisWojcik/single-page-nav) -->
+    <script>
+
+
+        $(document).ready(function () {
+
+            // Single page nav
+            $('.tm-main-nav').singlePageNav({
+                'currentClass': "active",
+                offset: 20
+            });
+
+            $('.tm-current-year').text(new Date().getFullYear());
+        });
+    </script>
+</body>
+</html>
