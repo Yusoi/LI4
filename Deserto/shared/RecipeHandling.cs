@@ -120,7 +120,7 @@ namespace Models.shared
             _context.RecipeBook.Remove(aux);
             _context.SaveChanges();
 
-            if (recipe.original == '0')
+            if (recipe.original != -1)
             {
                 cleanNotOriginalRecipe(recipe.recipeID);
                 _context.Recipe.Remove(recipe);
@@ -197,7 +197,12 @@ namespace Models.shared
         public void addNotOriginalRecipe(Recipe oldrecipe,int id)
         {
             Recipe newrecipe = new Recipe(oldrecipe);
-            newrecipe.original = '0';
+
+            if (oldrecipe.original == -1)
+                newrecipe.original = oldrecipe.recipeID;
+            else
+                newrecipe.original = oldrecipe.original;
+
             _context.Recipe.Add(newrecipe);
             _context.SaveChanges();
 
@@ -244,7 +249,10 @@ namespace Models.shared
               oldr.duration = 10;
               oldr.original = '0';
               oldr.difficulty = 'f';*/
-            if (oldr.original == '0')
+            var recipebook = _context.RecipeBook.Find(oldr.recipeID, id);
+            _context.RecipeBook.Remove(recipebook);
+            _context.SaveChanges();
+            if (oldr.original != -1)
             {
 
                 cleanNotOriginalRecipe(oldr.recipeID);

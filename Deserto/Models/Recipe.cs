@@ -16,7 +16,7 @@ namespace Deserto.Models
         [StringLength(64)]
         public string title { set; get; }
         [Required]
-        public char original { set; get; }
+        public int original { set; get; }
         [Required]
         public int duration { set; get; }
         [Required]

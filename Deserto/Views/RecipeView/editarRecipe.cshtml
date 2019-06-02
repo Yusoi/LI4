@@ -26,6 +26,9 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.nutValues)
 
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.original)
+
         <div class="form-group">
             <h3>Título</h3>
             <div class="col-md-10">

@@ -187,7 +187,7 @@ namespace Deserto.Controllers
                 Console.WriteLine("CARALHOOOOOOOOOOOOOOO   " + asd.name + "   QUANT  " + asd.quant);
             }
             recipeHandling.addUpdatedRecipe(recipe, Int32.Parse(c));
-            return RedirectToAction("getRecipes", "RecipeView");
+            return RedirectToAction("getUserRecipes", "RecipeView");
         }
         [Authorize]
         [HttpGet]
@@ -196,7 +196,7 @@ namespace Deserto.Controllers
             var identity = (ClaimsIdentity)User.Identity;
             int userid = Int32.Parse(identity.Name);
             recipeHandling.removeFromRecipeBook(id, userid);
-            return RedirectToAction("getRecipes", "RecipeView");
+            return RedirectToAction("getUserRecipes", "RecipeView");
         }
 
     }
