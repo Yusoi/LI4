@@ -234,6 +234,28 @@ namespace Models.shared
             }
         }
 
+        public void resetRecipe(int userID, int recipeID)
+        {
+            var oldr = _context.Recipe.Find(recipeID);
+            var recipebook = _context.RecipeBook.Find(oldr.recipeID, userID);
+            _context.RecipeBook.Remove(recipebook);
+            _context.SaveChanges();
+            if (oldr.original != -1)
+            {
+
+                cleanNotOriginalRecipe(oldr.recipeID);
+                _context.Recipe.Remove(oldr);
+                _context.SaveChanges();
+            }
+             RecipeBook rb = new RecipeBook(oldr.original, userID);
+            var rbori = _context.RecipeBook.Find(oldr.original, userID);
+            if (rbori == null)
+            {
+                _context.RecipeBook.Add(rb);
+                _context.SaveChanges();
+            }
+        }
+
         public bool alreadyHasRating(int recipeID,int userID)
         {
            var ur = _context.UserRecipe.Find(userID, recipeID);

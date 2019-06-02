@@ -161,7 +161,16 @@ namespace Deserto.Controllers
             return RedirectToAction("UserPage", "UserView");
         }
 
-
+        [Authorize]
+        [HttpGet]
+        public IActionResult resetRecipe(int recipeID)
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            int userid = Int32.Parse(identity.Name);
+            recipeHandling.resetRecipe(userid, recipeID);
+            return RedirectToAction("getUserRecipes", "RecipeView");
+    }
+        
 
         [Authorize]
         [HttpPost]

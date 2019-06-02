@@ -106,6 +106,10 @@
                                                 </p>
                                                 <p>
                                                     <a asp-controller="RecipeView" asp-action="editarRecipe" asp-route-recipeID="@item.recipeID">Editar Receita</a>
+                                                    @if (item.original != -1)
+                                                    {
+                                                    <a asp-controller="RecipeView" asp-action="resetRecipe" asp-route-recipeID="@item.recipeID">Reset</a>
+                                                    }
                                                 </p>
                                             </td>
                                         </tr>
