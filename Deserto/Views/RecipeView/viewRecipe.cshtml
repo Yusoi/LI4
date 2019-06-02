@@ -60,7 +60,7 @@
                                     Original:
                                 </dt>
                                 <dd class="col-sm-10">
-                                    @if (Model.original.Equals('1'))
+                                    @if (Model.original == -1)
                                     {
                                         <a>Sim</a>
                                     }
@@ -89,33 +89,46 @@
                                 </dd>
                             </dl>
                         </section>
-                        <!-- Editar section css-->
+                        <section class="tm-section">
+                            <h4>Ingredientes:</h4>
+                            <dl class="row">
+                                @for (int j = 0; j < Model.ingredients.Count; j++)
+                                {
+                                    <dt class="col-sm-2">
+                                        @Model.ingredients[j].quant
+                                    </dt>
+                                    <dd class="col-sm-10">
+                                        @Model.ingredients[j].name
+                                    </dd>
+                                }
+                            </dl>
+                        </section>
                         <section class="tm-section">
                             <h4>Instruções:</h4>
                             <dl class="row">
-                            @for (int i = 0; i < Model.instrucoes.Count; i++)
-                            {
-                                <dt class="col-sm-2">
-                                    @(i+1).
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Model.instrucoes[i].text
-                                </dd>
-                            }
+                                @for (int i = 0; i < Model.instrucoes.Count; i++)
+                                {
+                                    <dt class="col-sm-2">
+                                        @(i + 1).
+                                    </dt>
+                                    <dd class="col-sm-10">
+                                        @Model.instrucoes[i].text
+                                    </dd>
+                                }
                             </dl>
                         </section>
                         <div id="mapis">
 
                             <input id="mapa" type="button" value="Ingredientes em falta?" onclick="displaymap();" />
 
-                        <footer>
-                            <p class="tm-copyright-p">
-                                Copyright &copy; <span class="tm-current-year">2019</span> Deserts
-                            </p>
-                        </footer>
-                    </div>
+                            <footer>
+                                <p class="tm-copyright-p">
+                                    Copyright &copy; <span class="tm-current-year">2019</span> Deserts
+                                </p>
+                            </footer>
+                        </div>
 
-                </div> <!-- Right column: content -->
+                    </div> <!-- Right column: content -->
             </div>
         </div> <!-- row -->
     </div> <!-- container -->

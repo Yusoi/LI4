@@ -49,9 +49,13 @@ namespace Models.shared
 
         public List<Recipe> getRecipes(string search, int userID)
         {
+            //Encontra todos os recipes originais
             List<Recipe> recipes = _context.Recipe.Where(r => r.original == -1).ToList();
+            //Encontra todos os recipes que pertencem ao livro de receitas do utilizador
             List<RecipeBook> userRecipe = _context.RecipeBook.Where(u => u.userID == userID).ToList();
+            //Placeholder para guardar a lista nova
             List<Recipe> tempRecipes = new List<Recipe>();
+            //Placeholder para guardar a lista após o search term
             List<Recipe> tempRecipes2 = new List<Recipe>();
 
             foreach (RecipeBook rb in userRecipe)
@@ -190,7 +194,7 @@ namespace Models.shared
                     i.explanations.Add(explanation);
                 }
             }
-                List<Instruction> SortedList = list.OrderBy(o => o.order).ToList();
+            List<Instruction> SortedList = list.OrderBy(o => o.order).ToList();
             return SortedList;
         }
 
