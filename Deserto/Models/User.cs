@@ -30,6 +30,8 @@ namespace Deserto.Models
 
         public virtual ICollection<UserRecipe> UserRecipes { get; set; } 
 
+        public virtual ICollection<RecipeBook> RecipeBooks { get; set; }
+
     }
 
     public class UserContext : DbContext
@@ -65,6 +67,16 @@ namespace Deserto.Models
                 .HasOne(pc => pc.recipe)
                 .WithMany(c => c.UserRecipes)
                 .HasForeignKey(pc => pc.recipeID);
+
+            modelBuilder.Entity<RecipeBook>()
+                .HasOne(pc => pc.user)
+                .WithMany(p => p.RecipeBooks)
+                .HasForeignKey(pc => pc.recipeID);
+
+            modelBuilder.Entity<RecipeBook>()
+                .HasOne(pc => pc.recipe)
+                .WithMany(p => p.RecipeBooks)
+                .HasForeignKey(pc => pc.recipeID);
         }
         /*
         modelBuilder.Entity<Task>()
@@ -76,6 +88,7 @@ namespace Deserto.Models
         public DbSet<User> User { get; set; }
         public DbSet<Recipe> Recipe { get; set; }
         public DbSet<UserRecipe> UserRecipe { get; set; }
+        public DbSet<RecipeBook> RecipeBook { get; set; }
         public DbSet<Instruction> Instruction { get; set; }
         public DbSet<Explanation> Explanation { get; set; }
         public DbSet<Ingredient> Ingredient { get; set; }
@@ -83,7 +96,6 @@ namespace Deserto.Models
         public DbSet<RecipeIngredient> RecipeIngredient { get; set; }
         public DbSet<RecipeInstruction> RecipeInstruction { get; set; }
         public DbSet<InstructionExplanation> InstructionExplanation { get; set; }
-        public DbSet<RecipeBook> RecipeBook { get; set; }
         public int step ;
 
     }
