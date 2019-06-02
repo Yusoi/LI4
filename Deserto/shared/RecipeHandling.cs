@@ -111,6 +111,12 @@ namespace Models.shared
             }
 
             var aux = _context.RecipeBook.Find(receitaID,userID);
+
+            if(aux == null)
+            {
+                return;
+            }
+
             _context.RecipeBook.Remove(aux);
             _context.SaveChanges();
 
@@ -195,7 +201,7 @@ namespace Models.shared
             _context.Recipe.Add(newrecipe);
             _context.SaveChanges();
 
-            _context.UserRecipe.Add(new UserRecipe(id, newrecipe.recipeID, 'f'));
+            _context.RecipeBook.Add(new RecipeBook(newrecipe.recipeID, id));
             _context.SaveChanges();
             int i = 0;
             foreach (Instruction inst in oldrecipe.instrucoes)

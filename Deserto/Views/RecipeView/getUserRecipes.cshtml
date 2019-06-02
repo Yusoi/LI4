@@ -40,7 +40,8 @@
                         <h1 class="tm-site-name">DesertS</h1>
                     </div>
                     <div class="text-center">
-                        <p><a asp-action="Create">Criar Nova</a></p>
+                        <!-- <p><a asp-action="Create">Criar Nova</a></p> -->
+                        <a asp-controller="UserView" asp-action="userPage">&lt; Menu Principal</a>
                     </div>
                 </div> <!-- Left column: logo and menu -->
                 <!-- Right column: content -->
@@ -97,9 +98,12 @@
                                                 @Html.DisplayFor(modelItem => item.imagePath)
                                             </td>
                                             <td>
-                                                <a asp-controller="RecipeView" asp-action="viewRecipe" asp-route-recipeID="@item.recipeID">Ver Receita</a> |
-                                                <a asp-controller="RecipeView" asp-action="removeFromRecipeBookRecipeBook" asp-route-recipeID="@item.recipeID">Remover do Livro de Receitas</a>
-
+                                                <p>
+                                                    <a asp-controller="RecipeView" asp-action="viewRecipe" asp-route-recipeID="@item.recipeID">Ver Receita</a>
+                                                </p>
+                                                <p>
+                                                    <a asp-controller="RecipeView" asp-action="removeFromRecipeBookRecipeBook" asp-route-recipeID="@item.recipeID">Remover do Livro de Receitas</a>
+                                                </p>
                                                 <p>
                                                     <a asp-controller="RecipeView" asp-action="editarRecipe" asp-route-recipeID="@item.recipeID">Editar Receita</a>
                                                 </p>

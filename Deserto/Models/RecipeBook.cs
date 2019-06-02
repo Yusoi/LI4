@@ -14,12 +14,12 @@ namespace Deserto.Models
         public int recipeID { get; set; }
         [NotMapped]
         [JsonIgnore]
-        public virtual Recipe Recipe { set; get; }
+        public virtual Recipe recipe { set; get; }
         [Key]
         public int userID { set; get; }
         [NotMapped]
         [JsonIgnore]
-        public virtual User User { set; get; }
+        public virtual User user { set; get; }
 
         public RecipeBook(int recipeID, int userID)
         {
