@@ -23,27 +23,64 @@ namespace Models.shared
         public List<Recipe> getRecipes(int userID)
         {
             //Encontra todos os recipes originais
-            List<Recipe> recipes = _context.Recipe.Where(r => r.original.Equals('1')).ToList();
+            List<Recipe> recipes = _context.Recipe.Where(r => r.original == -1).ToList();
+            //Encontra todos os recipes que pertencem ao livro de receitas do utilizador
+            List<RecipeBook> userRecipe = _context.RecipeBook.Where(u => u.userID == userID).ToList();
+            //Placeholder para guardar a lista nova
+            List<Recipe> tempRecipes = new List<Recipe>();
 
-            return recipes;
-        }
-
-        public List<Recipe> getRecipes(string search, int userID)
-        {
-            List<Recipe> recipes = _context.Recipe.Where(r => r.original.Equals('1')).ToList();
-
-            if (!search.Equals(""))
+            foreach(RecipeBook rb in userRecipe)
             {
-                foreach (Recipe r in recipes)
+                foreach(Recipe r in recipes)
                 {
-                    if (!r.title.Contains(search))
+                    if(r.recipeID == getRecipe(rb.recipeID).original)
                     {
-                        recipes.Remove(r);
+                        tempRecipes.Add(getRecipe(rb.recipeID));
+                    }
+                    else
+                    {
+                        tempRecipes.Add(r);
                     }
                 }
             }
 
-            return recipes;
+            return tempRecipes;
+        }
+
+        public List<Recipe> getRecipes(string search, int userID)
+        {
+            List<Recipe> recipes = _context.Recipe.Where(r => r.original == -1).ToList();
+            List<RecipeBook> userRecipe = _context.RecipeBook.Where(u => u.userID == userID).ToList();
+            List<Recipe> tempRecipes = new List<Recipe>();
+            List<Recipe> tempRecipes2 = new List<Recipe>();
+
+            foreach (RecipeBook rb in userRecipe)
+            {
+                foreach (Recipe r in recipes)
+                {
+                    if (r.recipeID == getRecipe(rb.recipeID).original)
+                    {
+                        tempRecipes.Add(getRecipe(rb.recipeID));
+                    }
+                    else
+                    {
+                        tempRecipes.Add(r);
+                    }
+                }
+            }
+
+            if (!search.Equals(""))
+            {
+                foreach (Recipe r in tempRecipes)
+                {
+                    if (r.title.Contains(search))
+                    {
+                        tempRecipes2.Add(r);
+                    }
+                }
+            }
+
+            return tempRecipes2;
         }
 
         public Boolean belongsToRecipeBook(int recipeID, int userID)
