@@ -40,7 +40,7 @@
                         <h1 class="tm-site-name">DesertS</h1>
                     </div>
                     <div class="text-center">
-                        <p><a asp-controller="RecipeView" asp-action="displayInstruction">Confecionar Receita</a></p>
+                        <a asp-controller="RecipeView" asp-action="displayInstruction" asp-route-recipeID="@Model.recipeID">Confecionar Receita</a>
                         <p><a asp-controller="RecipeView" asp-action="editarRecipe" asp-route-recipeID="@Model.recipeID">Editar Receita</a></p>
                         <p><a asp-controller="RecipeView" asp-action="getRecipes" class="tm-nav-item-link">&lt; Pesquisa de Receitas</a></p>
                         <p><a asp-controller="RecipeView" asp-action="getUserRecipes" class="tm-nav-item-link">&lt; Livro de Receitas</a></p>
@@ -144,7 +144,9 @@
                 </div>';
 
             document.getElementById('mapis').appendChild(div);
+            document.getElementById("mapa").disabled = true;
         }
+
     </script>
 
 

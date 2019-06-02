@@ -100,12 +100,12 @@ namespace Deserto.Controllers
 
         [Authorize]
         [HttpGet]
-        public IActionResult displayInstruction(int i)
+        public IActionResult displayInstruction(int recipeID)
         {
             TempData["ordernr"] = 0;
             TempData.Keep("ordernr");
             List<Instruction> list = recipeHandling.getInstructions(4);
-            TempData["RecipeID"] = 4;
+            TempData["RecipeID"] = recipeID;
             TempData["button"] = "False";
             TempData.Keep("RecipeID");
             TempData.Keep("button");
@@ -141,8 +141,13 @@ namespace Deserto.Controllers
         [HttpGet]
         public IActionResult Rating()
         {
-           
-            return View(recipeHandling.getRecipe(4));
+            int recipeID = (int) TempData["RecipeID"];
+            TempData.Keep("RecipeID");
+            var identity = (ClaimsIdentity)User.Identity;
+            int userid = Int32.Parse(identity.Name);
+            if (recipeHandling.alreadyHasRating(recipeID, userid))
+                return RedirectToAction("UserPage", "UserView");
+            return View(recipeHandling.getRecipe(recipeID));
         }
 
         [Authorize]
@@ -151,9 +156,9 @@ namespace Deserto.Controllers
         {
             var identity = (ClaimsIdentity)User.Identity;
             int userid = Int32.Parse(identity.Name);
-            Console.WriteLine("CARAHHDFHSDHHSDHFHHFHFFaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + "    " + recipe.Rating);
+            Console.WriteLine("CARAHHDFHSDHHSDHFHHFHFFaaaaaaaaaa RATING" + "    " + recipe.Rating+ "  RECIPE ID " +recipe.recipeID);
             recipeHandling.setRecipeRating(userid, recipe.recipeID, recipe.Rating);
-            return View();
+            return RedirectToAction("UserPage", "UserView");
         }
 
 

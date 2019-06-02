@@ -234,12 +234,22 @@ namespace Models.shared
             }
         }
 
+        public bool alreadyHasRating(int recipeID,int userID)
+        {
+           var ur = _context.UserRecipe.Find(userID, recipeID);
+            if (ur == null) return false;
+               return true;
+        }
+
         public void setRecipeRating(int UserID, int RecipeID,char rating)
         {
            var userRecipe = _context.UserRecipe.Find(UserID, RecipeID);
-            if (userRecipe == null) return;
-            userRecipe.rating = rating;
-            _context.SaveChanges();
+            if (userRecipe == null)
+            {
+                UserRecipe urecipe = new UserRecipe(UserID, RecipeID, rating);
+                _context.UserRecipe.Add(urecipe);
+                _context.SaveChanges();
+            }
         }
 
         public void addUpdatedRecipe(Recipe oldr,int id)
