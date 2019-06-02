@@ -83,9 +83,14 @@
                                 </dt>
                                 <dd class="col-sm-10">
                                     @Html.DisplayFor(model => model.imagePath)
+
                                 </dd>
                             </dl>
                         </section>
+                        <div id="mapis">
+
+                            <input id="mapa" type="button" value="Ingredientes em falta?" onclick="displaymap();" />
+
                         <footer>
                             <p class="tm-copyright-p">
                                 Copyright &copy; <span class="tm-current-year">2019</span> Deserts
@@ -98,10 +103,40 @@
         </div> <!-- row -->
     </div> <!-- container -->
     <!-- load JS files -->
+
     <script src="~/js/jquery-1.11.3.min.js"></script>             <!-- jQuery (https://jquery.com/download/) -->
     <script src="~/js/jquery.magnific-popup.min.js"></script>     <!-- Magnific pop-up (http://dimsemenov.com/plugins/magnific-popup/) -->
     <script src="~/js/jquery.singlePageNav.min.js"></script>      <!-- Single Page Nav (https://github.com/ChrisWojcik/single-page-nav) -->
+
+    <script type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=6.3"></script>
+
     <script>
+
+        function displaymap() {
+            var div = document.createElement('div');
+
+            div.className = 'row';
+
+            div.innerHTML =
+                ' <p> Local onde poderá adquirir ingredientes em falta:</p> \
+                <iframe width="500" height="400" frameborder="0" src="https://www.bing.com/maps/embed?h=400&w=500&cp=41.54146545985778~-8.402105042725086&lvl=16&typ=d&sty=r&src=SHELL&FORM=MBEDV8" scrolling="no">\
+     </iframe >\
+                <div style="white-space: nowrap; text-align: center; width: 500px; padding: 6px 0;">\
+                    <a id="largeMapLink" target="_blank" href="https://www.bing.com/maps?cp=41.54146545985778~-8.402105042725086&amp;sty=r&amp;lvl=16&amp;FORM=MBEDLD">Ver Mapa Maior</a> &nbsp; | &nbsp;\
+        <a id="dirMapLink" target="_blank" href="https://www.bing.com/maps/directions?cp=41.54146545985778~-8.402105042725086&amp;sty=r&amp;lvl=16&amp;rtp=~pos.41.54146545985778_-8.402105042725086____&amp;FORM=MBEDLD">Obter Direções</a>\
+                </div>';
+
+            document.getElementById('mapis').appendChild(div);
+        }
+    </script>
+
+
+        <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=YourBingMapsKey&callback=loadMapScenario' async defer></script>
+
+
+    <script>
+
+
 
 
         $(document).ready(function () {
@@ -112,8 +147,8 @@
                 offset: 20
             });
 
-            $('.tm-current-year').text(new Date().getFullYear());
-        });
+        $('.tm-current-year').text(new Date().getFullYear());
+    });
     </script>
 </body>
 </html>
