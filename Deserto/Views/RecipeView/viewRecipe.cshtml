@@ -54,7 +54,7 @@
                             <header>
                                 <h2 class="tm-blue-text tm-welcome-title tm-margin-b-45">@Html.DisplayTextFor(model => model.title)</h2>
                             </header>
-                            <img src="~/img/01.jpg" width="75%" height="auto" style="align-content:center"/>
+                            <img src="~/img/@Model.imagePath" width="75%" height="auto" style="align-content:center"/>
                         <dl class="row">
                             <dt class="col-sm-2">
                                 Original:
@@ -73,7 +73,7 @@
                                 Duração:
                             </dt>
                             <dd class="col-sm-10">
-                                @Html.DisplayFor(model => model.duration)
+                                @Html.DisplayFor(model => model.duration) minutos
                             </dd>
                             <dt class="col-sm-2">
                                 Dificuldade:

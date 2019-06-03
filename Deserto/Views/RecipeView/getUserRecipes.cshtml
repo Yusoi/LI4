@@ -50,7 +50,7 @@
                         <!-- Welcome section -->
                         <section id="welcome" class="tm-section">
                             <header>
-                                <h2 class="tm-blue-text tm-welcome-title tm-margin-b-45">Lista de Receitas</h2>
+                                <h2 class="tm-blue-text tm-welcome-title tm-margin-b-45">Livro de Receitas</h2>
                             </header>
                             <table class="table">
                                 <thead>
@@ -86,10 +86,16 @@
                                                 @Html.DisplayFor(modelItem => item.title)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.original)
+                                                @if(item.original == -1)
+                                                {
+                                                    <a>Yes</a>
+                                                } else
+                                                {
+                                                    <a>No</a>
+                                                }
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.duration)
+                                                @Html.DisplayFor(modelItem => item.duration) minutos
                                             </td>
                                             <td>
                                                 @switch (item.difficulty)
