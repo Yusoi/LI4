@@ -40,7 +40,7 @@
                         <h1 class="tm-site-name">DesertS</h1>
                     </div>
                     <div class="text-center">
-                        <a asp-controller="RecipeView" asp-action="displayInstruction" asp-route-recipeID="@Model.recipeID">Confecionar Receita</a>
+                        <p><a asp-controller="RecipeView" asp-action="displayInstruction" asp-route-recipeID="@Model.recipeID">Confecionar Receita</a></p>
                         <p><a asp-controller="RecipeView" asp-action="editarRecipe" asp-route-recipeID="@Model.recipeID">Editar Receita</a></p>
                         <p><a asp-controller="RecipeView" asp-action="getRecipes" class="tm-nav-item-link">&lt; Pesquisa de Receitas</a></p>
                         <p><a asp-controller="RecipeView" asp-action="getUserRecipes" class="tm-nav-item-link">&lt; Livro de Receitas</a></p>
@@ -54,40 +54,59 @@
                             <header>
                                 <h2 class="tm-blue-text tm-welcome-title tm-margin-b-45">@Html.DisplayTextFor(model => model.title)</h2>
                             </header>
-                            <img>@Html.DisplayFor(model => model.imagePath)</img>
-                            <dl class="row">
-                                <dt class="col-sm-2">
-                                    Original:
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @if (Model.original == -1)
-                                    {
-                                        <a>Sim</a>
-                                    }
-                                    else
-                                    {
-                                        <a>Não</a>
-                                    }
-                                </dd>
-                                <dt class="col-sm-2">
-                                    Duração:
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.duration)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    Dificuldade:
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.difficulty)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    Valor Nutricional:
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.nutValues)
-                                </dd>
-                            </dl>
+                            <img src="~/img/01.jpg" width="75%" height="auto" style="align-content:center"/>
+                        <dl class="row">
+                            <dt class="col-sm-2">
+                                Original:
+                            </dt>
+                            <dd class="col-sm-10">
+                                @if (Model.original == -1)
+                                {
+                                    <a>Sim</a>
+                                }
+                                else
+                                {
+                                    <a>Não</a>
+                                }
+                            </dd>
+                            <dt class="col-sm-2">
+                                Duração:
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.duration)
+                            </dd>
+                            <dt class="col-sm-2">
+                                Dificuldade:
+                            </dt>
+                            <dd class="col-sm-10">
+                                @switch (Model.difficulty)
+                                {
+                                    case 'f':
+                                        <a>Fácil</a>
+                                        break;
+                                    case 'm':
+                                        <a>Média</a>
+                                        break;
+                                    case 'd':
+                                        <a>Difícil</a>
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            </dd>
+                            <dt class="col-sm-2">
+                                Valor Nutricional:
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.nutValues)
+                            </dd>
+                            <dt class="col-sm-2">
+                                Avaliação:
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(modelItem => Model.MediaRating)/5
+                            </dd>
+                        </dl>
                         </section>
                         <section class="tm-section">
                             <h4>Ingredientes:</h4>
@@ -129,9 +148,11 @@
                         </div>
 
                     </div> <!-- Right column: content -->
+                </div>
             </div>
         </div> <!-- row -->
     </div> <!-- container -->
+
     <!-- load JS files -->
 
     <script src="~/js/jquery-1.11.3.min.js"></script>             <!-- jQuery (https://jquery.com/download/) -->

@@ -141,8 +141,10 @@ namespace Deserto.Controllers
         [HttpGet]
         public IActionResult UserPage()
         {
-
-            return View();
+            var identity = (ClaimsIdentity)User.Identity;
+            int userID = Int32.Parse(identity.Name);
+            User user = userHandling.getUser(userID);
+            return View(user);
         }
 
         [HttpGet]

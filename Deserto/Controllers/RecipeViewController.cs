@@ -45,9 +45,10 @@ namespace Deserto.Controllers
                 {
                     TempData[r.recipeID.ToString()] = 0;
                     TempData.Keep();
+                    r.MediaRating = recipeHandling.getMediaRating(r.recipeID);
                 }
             }
-
+            
             return View(recipes);
         }
 
@@ -86,6 +87,7 @@ namespace Deserto.Controllers
         public IActionResult viewRecipe(int recipeID)
         {
             Recipe recipe = recipeHandling.getRecipe(recipeID);
+            recipe.MediaRating = recipeHandling.getMediaRating(recipe.recipeID);
             return View(recipe);
         }
 
@@ -95,6 +97,10 @@ namespace Deserto.Controllers
             int userid = Int32.Parse(identity.Name);
 
             List<Recipe> recipes = recipeHandling.getUserRecipes(userid);
+            foreach(Recipe r in recipes)
+            {
+                r.MediaRating = recipeHandling.getMediaRating(r.recipeID);
+            }
             return View(recipes);
         }
 
@@ -104,13 +110,15 @@ namespace Deserto.Controllers
         {
             TempData["ordernr"] = 0;
             TempData.Keep("ordernr");
-            List<Instruction> list = recipeHandling.getInstructions(4);
+            List<Instruction> list = recipeHandling.getInstructions(recipeID);
             TempData["RecipeID"] = recipeID;
             TempData["button"] = "False";
             TempData.Keep("RecipeID");
             TempData.Keep("button");
             return View(list.ElementAt(0));
         }
+
+        //TODO: dar display da instrução correta
         [Authorize]
         [HttpPost]
         public IActionResult displayInstruction(string ordem)

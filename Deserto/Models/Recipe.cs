@@ -37,6 +37,10 @@ namespace Deserto.Models
         [JsonIgnore]
         public char Rating { set; get; }
 
+        [NotMapped]
+        [JsonIgnore]
+        public float MediaRating { set; get; }
+
         public virtual ICollection<RecipeIngredient> RecipeIngredient { get; set; }
 
         public virtual ICollection<RecipeInstruction> RecipeInstruction { get; set; }

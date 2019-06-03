@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
@@ -22,26 +23,49 @@ namespace Models.shared
 
         public List<Recipe> getRecipes(int userID)
         {
+            Debug.WriteLine("HelloHello");
             //Encontra todos os recipes originais
             List<Recipe> recipes = _context.Recipe.Where(r => r.original == -1).ToList();
+            Debug.WriteLine("RecipesOriginais");
+            foreach(Recipe r in recipes)
+            {
+                Debug.WriteLine(r.recipeID);
+            }
             //Encontra todos os recipes que pertencem ao livro de receitas do utilizador
             List<RecipeBook> userRecipe = _context.RecipeBook.Where(u => u.userID == userID).ToList();
+            Debug.WriteLine("UserRecipes");
+            foreach(RecipeBook r in userRecipe)
+            {
+                Debug.WriteLine(r.recipeID + " " + r.userID);
+            }
             //Placeholder para guardar a lista nova
             List<Recipe> tempRecipes = new List<Recipe>();
 
-            foreach(RecipeBook rb in userRecipe)
+
+            foreach (Recipe r in recipes)
             {
-                foreach(Recipe r in recipes)
-                {
+                bool added = false;
+                foreach (RecipeBook rb in userRecipe)
+                { 
                     if(r.recipeID == getRecipe(rb.recipeID).original)
                     {
                         tempRecipes.Add(getRecipe(rb.recipeID));
-                    }
-                    else
-                    {
-                        tempRecipes.Add(r);
+                        added = true;
                     }
                 }
+                if (!added)
+                {
+                    tempRecipes.Add(r);
+                } else
+                {
+                    added = false;
+                }
+            }
+
+            Debug.WriteLine("TempRecipes");
+            foreach (Recipe r in tempRecipes)
+            {
+                Debug.WriteLine(r.recipeID);
             }
 
             return tempRecipes;
@@ -53,23 +77,33 @@ namespace Models.shared
             List<Recipe> recipes = _context.Recipe.Where(r => r.original == -1).ToList();
             //Encontra todos os recipes que pertencem ao livro de receitas do utilizador
             List<RecipeBook> userRecipe = _context.RecipeBook.Where(u => u.userID == userID).ToList();
+            //encontra todos os ingredientes excluídos do utilizador
+            List<ExcludedIngredients> excludedIngredients = _context.ExcludedIngredients.Where(u => u.userID == userID).ToList();
             //Placeholder para guardar a lista nova
             List<Recipe> tempRecipes = new List<Recipe>();
             //Placeholder para guardar a lista após o search term
             List<Recipe> tempRecipes2 = new List<Recipe>();
+            //Placeholder para guardar a lista após testar os ingredientes
+            List<Recipe> tempRecipes3 = new List<Recipe>();
 
-            foreach (RecipeBook rb in userRecipe)
+            foreach (Recipe r in recipes)
             {
-                foreach (Recipe r in recipes)
+                bool added = false;
+                foreach (RecipeBook rb in userRecipe)
                 {
                     if (r.recipeID == getRecipe(rb.recipeID).original)
                     {
                         tempRecipes.Add(getRecipe(rb.recipeID));
+                        added = true;
                     }
-                    else
-                    {
-                        tempRecipes.Add(r);
-                    }
+                }
+                if (!added)
+                {
+                    tempRecipes.Add(r);
+                }
+                else
+                {
+                    added = false;
                 }
             }
 
@@ -84,7 +118,27 @@ namespace Models.shared
                 }
             }
 
-            return tempRecipes2;
+            foreach(Recipe r in tempRecipes2)
+            {
+                foreach(ExcludedIngredients i in excludedIngredients)
+                {
+                    bool passed = true;
+                    foreach(Ingredient ing in r.ingredients)
+                    {
+                        if(i.ingredientID == ing.ingredientID)
+                        {
+                            passed = false;
+                            break;
+                        }
+                    }
+                    if (passed)
+                    {
+                        tempRecipes3.Add(r);
+                    }
+                }
+            }
+
+            return tempRecipes3;
         }
 
         public Boolean belongsToRecipeBook(int recipeID, int userID)
@@ -100,16 +154,30 @@ namespace Models.shared
 
         public List<Recipe> getUserRecipes(int userID)
         {
+            Debug.WriteLine("HelloHello");
             var user = _context.User.Find(userID);
             if (user == null)
             {
+                Debug.WriteLine("UserNotNull");
                 return null;
             }
             var userrecipes = _context.RecipeBook.Where(s => s.userID == userID);
-            if (userrecipes == null) return null;
+            Debug.WriteLine("UserRecipes:");
+            foreach (RecipeBook r in userrecipes)
+            {
+                Debug.WriteLine(r.recipeID +" "+r.userID);
+            }
+            if (userrecipes == null)
+            {
+                Debug.WriteLine("UserRecipesNull");
+                return null;
+            }
+                
             List<Recipe> recipes = new List<Recipe>();
+            Debug.WriteLine("Recipes");
             foreach (RecipeBook t in userrecipes)
             {
+                Debug.WriteLine(t.recipeID + " " + t.userID);
                 recipes.Add(getRecipe(t.recipeID));
             }
             return recipes;
@@ -279,12 +347,21 @@ namespace Models.shared
         {
             var oldr = _context.Recipe.Find(recipeID);
             var recipebook = _context.RecipeBook.Find(oldr.recipeID, userID);
-            _context.RecipeBook.Remove(recipebook);
-            _context.SaveChanges();
+            if (recipebook != null)
+            {
+                _context.RecipeBook.Remove(recipebook);
+                _context.SaveChanges();
+            }
             if (oldr.original != -1)
             {
 
                 cleanNotOriginalRecipe(oldr.recipeID);
+                UserRecipe ur = _context.UserRecipe.Find(recipeID, userID);
+                if (ur != null)
+                {
+                    _context.UserRecipe.Remove(ur);
+                    _context.SaveChanges();
+                }
                 _context.Recipe.Remove(oldr);
                 _context.SaveChanges();
             }
@@ -345,6 +422,19 @@ namespace Models.shared
                 list.Add(t);
             }
             return list;
+        }
+
+        public float getMediaRating(int recipeID)
+        {
+            List<UserRecipe> ratings = _context.UserRecipe.Where(r => r.recipeID == recipeID).ToList();
+            float sum = 0;
+            int n = ratings.Count();
+            foreach(UserRecipe r in ratings)
+            {
+                sum += float.Parse(r.rating.ToString());
+            }
+            float media = sum / (float)n;
+            return (float)System.Math.Round(media,1);
         }
 
     }

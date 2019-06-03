@@ -104,6 +104,15 @@ namespace Models.shared
             User returnedUser = (User) user;
             return returnedUser;
         }
+
+        public User getUser(int userID)
+        {
+            var user = _context.User.Where(b => b.UserID == userID).FirstOrDefault();
+            if (user == null) return null;
+            User returnedUser = (User) user;
+            return returnedUser;
+        }
+
         public bool validateUser(User user)
         {
             user.Password = MyHelpers.HashPassword(user.Password);

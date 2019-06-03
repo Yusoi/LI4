@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Deserto.Models.User
+
+@{
     ViewData["Title"] = "UserPage";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -50,9 +52,9 @@
                         <!-- Welcome section -->
                         <section id="welcome" class="tm-section">
                             <header>
-                                <h2 class="tm-blue-text tm-welcome-title tm-margin-b-45">User Page</h2>
+                                <h2 class="tm-blue-text tm-welcome-title tm-margin-b-45">Menu Principal</h2>
                             </header>
-                            <p>Bem vindo! Esta é a sua página de utilizador.</p>
+                            <p>Bem vindo @Model.Nome!</p>
                         </section>
                         <footer>
                             <p class="tm-copyright-p">
