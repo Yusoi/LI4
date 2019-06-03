@@ -77,23 +77,33 @@ namespace Models.shared
             List<Recipe> recipes = _context.Recipe.Where(r => r.original == -1).ToList();
             //Encontra todos os recipes que pertencem ao livro de receitas do utilizador
             List<RecipeBook> userRecipe = _context.RecipeBook.Where(u => u.userID == userID).ToList();
+            //encontra todos os ingredientes excluídos do utilizador
+            List<ExcludedIngredients> excludedIngredients = _context.ExcludedIngredients.Where(u => u.userID == userID).ToList();
             //Placeholder para guardar a lista nova
             List<Recipe> tempRecipes = new List<Recipe>();
             //Placeholder para guardar a lista após o search term
             List<Recipe> tempRecipes2 = new List<Recipe>();
+            //Placeholder para guardar a lista após testar os ingredientes
+            List<Recipe> tempRecipes3 = new List<Recipe>();
 
-            foreach (RecipeBook rb in userRecipe)
+            foreach (Recipe r in recipes)
             {
-                foreach (Recipe r in recipes)
+                bool added = false;
+                foreach (RecipeBook rb in userRecipe)
                 {
                     if (r.recipeID == getRecipe(rb.recipeID).original)
                     {
                         tempRecipes.Add(getRecipe(rb.recipeID));
+                        added = true;
                     }
-                    else
-                    {
-                        tempRecipes.Add(r);
-                    }
+                }
+                if (!added)
+                {
+                    tempRecipes.Add(r);
+                }
+                else
+                {
+                    added = false;
                 }
             }
 
@@ -108,7 +118,27 @@ namespace Models.shared
                 }
             }
 
-            return tempRecipes2;
+            foreach(Recipe r in tempRecipes2)
+            {
+                foreach(ExcludedIngredients i in excludedIngredients)
+                {
+                    bool passed = true;
+                    foreach(Ingredient ing in r.ingredients)
+                    {
+                        if(i.ingredientID == ing.ingredientID)
+                        {
+                            passed = false;
+                            break;
+                        }
+                    }
+                    if (passed)
+                    {
+                        tempRecipes3.Add(r);
+                    }
+                }
+            }
+
+            return tempRecipes3;
         }
 
         public Boolean belongsToRecipeBook(int recipeID, int userID)
@@ -317,12 +347,21 @@ namespace Models.shared
         {
             var oldr = _context.Recipe.Find(recipeID);
             var recipebook = _context.RecipeBook.Find(oldr.recipeID, userID);
-            _context.RecipeBook.Remove(recipebook);
-            _context.SaveChanges();
+            if (recipebook != null)
+            {
+                _context.RecipeBook.Remove(recipebook);
+                _context.SaveChanges();
+            }
             if (oldr.original != -1)
             {
 
                 cleanNotOriginalRecipe(oldr.recipeID);
+                UserRecipe ur = _context.UserRecipe.Find(recipeID, userID);
+                if (ur != null)
+                {
+                    _context.UserRecipe.Remove(ur);
+                    _context.SaveChanges();
+                }
                 _context.Recipe.Remove(oldr);
                 _context.SaveChanges();
             }

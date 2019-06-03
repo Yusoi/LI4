@@ -51,9 +51,15 @@
                             <header>
                                 <h2 class="tm-blue-text tm-welcome-title tm-margin-b-45">Receitas</h2>
                             </header>
-                            <!--<form asp-action="getRecipes">
-
-                            </form>-->
+                            <form asp-controller="RecipeView" asp-action="getRecipes">
+                                <div class="form-group">
+                                    <label class="control-label">Barra de Pesquisa</label>
+                                    <input class="form-control" name="search" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" value="Pesquisar" class="btn btn-default btn-success" />
+                                </div>
+                            </form>
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -109,8 +115,7 @@
                                                 @Html.DisplayFor(modelItem => item.MediaRating)/5
                                             </td>
                                             <td>
-                                                <!-- TODO: Display da imagem-->
-                                                @Html.DisplayFor(modelItem => item.imagePath)
+                                                <img src="~/img/@item.imagePath" width="100%" height="auto"/>
                                             </td>
                                             <td>
                                                 @if (TempData[item.recipeID.ToString()] != null)
