@@ -133,8 +133,9 @@ namespace Deserto.Controllers
             TempData["ordernr"] = ind;
             TempData.Keep("ordernr");
 
-            List <Instruction> list = recipeHandling.getInstructions(4);
-            Console.WriteLine("CARAHHDFHSDHHSDHFHHFHFFaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + TempData["ordernr"] + "IND + 2 = " + (ind + 2)+ "conoutt = "+list.Count());
+            List <Instruction> list = recipeHandling.getInstructions((int)TempData["RecipeID"]);
+            TempData.Keep("RecipeID");
+            Console.WriteLine("CARAHHDFHSDHHSDHFHHFHFFaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + TempData["ordernr"] + "IND + 2 = " + (ind + 2)+ "conoutt = "+list.Count()+ TempData["RecipeID"]);
             if (list.Count() != ind + 1)
                 return View(list.ElementAt((int)TempData["ordernr"]));
 
@@ -206,7 +207,6 @@ namespace Deserto.Controllers
             string c = identity.Name;
             Console.WriteLine("AAAAAAAAAAAAAAAAAsize: " + recipe.ingredients.Count + " ");
             foreach(Ingredient asd in recipe.ingredients){
-                Console.WriteLine("CARALHOOOOOOOOOOOOOOO   " + asd.name + "   QUANT  " + asd.quant);
             }
             recipeHandling.addUpdatedRecipe(recipe, Int32.Parse(c));
             return RedirectToAction("getUserRecipes", "RecipeView");
