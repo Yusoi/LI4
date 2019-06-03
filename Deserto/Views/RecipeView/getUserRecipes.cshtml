@@ -89,7 +89,20 @@
                                                 @Html.DisplayFor(modelItem => item.duration)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.difficulty)
+                                                @switch (item.difficulty)
+                                                {
+                                                    case 'f':
+                                                        <a>Fácil</a>
+                                                        break;
+                                                    case 'm':
+                                                        <a>Média</a>
+                                                        break;
+                                                    case 'd':
+                                                        <a>Difícil</a>
+                                                        break;
+                                                    default:
+                                                        break;
+                                                }
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.nutValues)

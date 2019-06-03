@@ -51,6 +51,9 @@
                             <header>
                                 <h2 class="tm-blue-text tm-welcome-title tm-margin-b-45">Receitas</h2>
                             </header>
+                            <form asp-action="getRecipes">
+
+                            </form>
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -81,13 +84,26 @@
                                                 @Html.DisplayFor(modelItem => item.duration)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.difficulty)
+                                                @switch (item.difficulty)
+                                                {
+                                                    case 'f':
+                                                        <a>Fácil</a>
+                                                        break;
+                                                    case 'm':
+                                                        <a>Média</a>
+                                                        break;
+                                                    case 'd':
+                                                        <a>Difícil</a>
+                                                        break;
+                                                    default:
+                                                        break;
+                                                }
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.nutValues)
                                             </td>
                                             <td>
-                                                <!-- Display da imagem-->
+                                                <!-- TODO: Display da imagem-->
                                                 @Html.DisplayFor(modelItem => item.imagePath)
                                             </td>
                                             <td>

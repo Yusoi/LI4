@@ -104,13 +104,15 @@ namespace Deserto.Controllers
         {
             TempData["ordernr"] = 0;
             TempData.Keep("ordernr");
-            List<Instruction> list = recipeHandling.getInstructions(4);
+            List<Instruction> list = recipeHandling.getInstructions(recipeID);
             TempData["RecipeID"] = recipeID;
             TempData["button"] = "False";
             TempData.Keep("RecipeID");
             TempData.Keep("button");
             return View(list.ElementAt(0));
         }
+
+        //TODO: dar display da instrução correta
         [Authorize]
         [HttpPost]
         public IActionResult displayInstruction(string ordem)

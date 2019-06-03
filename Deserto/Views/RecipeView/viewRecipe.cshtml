@@ -40,7 +40,7 @@
                         <h1 class="tm-site-name">DesertS</h1>
                     </div>
                     <div class="text-center">
-                        <a asp-controller="RecipeView" asp-action="displayInstruction" asp-route-recipeID="@Model.recipeID">Confecionar Receita</a>
+                        <p><a asp-controller="RecipeView" asp-action="displayInstruction" asp-route-recipeID="@Model.recipeID">Confecionar Receita</a></p>
                         <p><a asp-controller="RecipeView" asp-action="editarRecipe" asp-route-recipeID="@Model.recipeID">Editar Receita</a></p>
                         <p><a asp-controller="RecipeView" asp-action="getRecipes" class="tm-nav-item-link">&lt; Pesquisa de Receitas</a></p>
                         <p><a asp-controller="RecipeView" asp-action="getUserRecipes" class="tm-nav-item-link">&lt; Livro de Receitas</a></p>
@@ -79,7 +79,20 @@
                                     Dificuldade:
                                 </dt>
                                 <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.difficulty)
+                                    @switch (Model.difficulty)
+                                    {
+                                        case 'f':
+                                            <a>Fácil</a>
+                                            break;
+                                        case 'm':
+                                            <a>Média</a>
+                                            break;
+                                        case 'd':
+                                            <a>Difícil</a>
+                                            break;
+                                        default:
+                                            break;
+                                    }
                                 </dd>
                                 <dt class="col-sm-2">
                                     Valor Nutricional:
@@ -129,9 +142,11 @@
                         </div>
 
                     </div> <!-- Right column: content -->
+                </div>
             </div>
         </div> <!-- row -->
     </div> <!-- container -->
+
     <!-- load JS files -->
 
     <script src="~/js/jquery-1.11.3.min.js"></script>             <!-- jQuery (https://jquery.com/download/) -->
