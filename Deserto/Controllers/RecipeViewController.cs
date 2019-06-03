@@ -45,10 +45,10 @@ namespace Deserto.Controllers
                 {
                     TempData[r.recipeID.ToString()] = 0;
                     TempData.Keep();
+                    r.MediaRating = recipeHandling.getMediaRating(r.recipeID);
                 }
             }
             
-
             return View(recipes);
         }
 
@@ -87,6 +87,7 @@ namespace Deserto.Controllers
         public IActionResult viewRecipe(int recipeID)
         {
             Recipe recipe = recipeHandling.getRecipe(recipeID);
+            recipe.MediaRating = recipeHandling.getMediaRating(recipe.recipeID);
             return View(recipe);
         }
 
@@ -96,6 +97,10 @@ namespace Deserto.Controllers
             int userid = Int32.Parse(identity.Name);
 
             List<Recipe> recipes = recipeHandling.getUserRecipes(userid);
+            foreach(Recipe r in recipes)
+            {
+                r.MediaRating = recipeHandling.getMediaRating(r.recipeID);
+            }
             return View(recipes);
         }
 

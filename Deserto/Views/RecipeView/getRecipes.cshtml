@@ -69,6 +69,9 @@
                                         <th>
                                             Valores Nutricionais
                                         </th>
+                                        <th>
+                                            Avaliação
+                                        </th>
                                         <th />
                                         <th></th>
                                     </tr>
@@ -101,6 +104,9 @@
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.nutValues)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.MediaRating)/5
                                             </td>
                                             <td>
                                                 <!-- TODO: Display da imagem-->
