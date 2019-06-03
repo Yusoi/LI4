@@ -50,6 +50,11 @@
                     document.getElementById("voltari").click();
                     document.getElementById("image1").remove();
                 }
+                else if (res == "repetir") {
+                    voice('@(Model.text)');
+                    startDictation(iorder);
+                }
+
                 else startDictation(iorder);
 
             };
@@ -101,8 +106,6 @@
 
 
 <div id="init">
-    <a asp-action="Edit" asp-route-id="@Model.instructionID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
 
     <form asp-action="displayInstruction">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -137,7 +140,7 @@
     else if (nex != 1)
         startDictation(1);
     else 
-        startDictation();
+        startDictation(3);
 
 
 
