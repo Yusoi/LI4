@@ -117,7 +117,14 @@
                                                 @Html.DisplayFor(modelItem => item.nutValues)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.MediaRating)/5
+                                                @if (item.MediaRating != 0)
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.MediaRating)<a>/5</a>
+                                                }
+                                                else
+                                                {
+                                                    <a>Sem Avaliação</a>
+                                                }
                                             </td>
                                             <td>
                                                 <img src="~/img/@item.imagePath" width="100%" height="auto"/>

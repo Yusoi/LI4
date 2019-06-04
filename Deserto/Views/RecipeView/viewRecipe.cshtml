@@ -104,7 +104,14 @@
                                 Avaliação:
                             </dt>
                             <dd class="col-sm-10">
-                                @Html.DisplayFor(modelItem => Model.MediaRating)/5
+                                @if (item.MediaRating != 0)
+                                {
+                                    @Html.DisplayFor(modelItem => Model.MediaRating)<a>/5</a>
+                                }
+                                else
+                                {
+                                    <a>Sem Avaliação</a>
+                                }
                             </dd>
                         </dl>
                         </section>

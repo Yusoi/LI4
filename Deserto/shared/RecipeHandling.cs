@@ -149,7 +149,6 @@ namespace Models.shared
             {
                 return false;
             }
-            
         }
 
         public List<Recipe> getUserRecipes(int userID)
@@ -427,8 +426,9 @@ namespace Models.shared
         public float getMediaRating(int recipeID)
         {
             List<UserRecipe> ratings = _context.UserRecipe.Where(r => r.recipeID == recipeID).ToList();
-            float sum = 0;
             int n = ratings.Count();
+            if (n == 0) return (float)0;
+            float sum = 0;
             foreach(UserRecipe r in ratings)
             {
                 sum += float.Parse(r.rating.ToString());
