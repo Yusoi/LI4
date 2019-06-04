@@ -26,21 +26,15 @@ namespace Models.shared
             Debug.WriteLine("HelloHello");
             //Encontra todos os recipes originais
             List<Recipe> recipes = _context.Recipe.Where(r => r.original == -1).ToList();
-            Debug.WriteLine("RecipesOriginais");
-            foreach(Recipe r in recipes)
-            {
-                Debug.WriteLine(r.recipeID);
-            }
+            
             //Encontra todos os recipes que pertencem ao livro de receitas do utilizador
             List<RecipeBook> userRecipe = _context.RecipeBook.Where(u => u.userID == userID).ToList();
-            Debug.WriteLine("UserRecipes");
-            foreach(RecipeBook r in userRecipe)
-            {
-                Debug.WriteLine(r.recipeID + " " + r.userID);
-            }
+
+            List<ExcludedIngredients> excludedIngredients = _context.ExcludedIngredients.Where(u => u.userID == userID).ToList();
+
             //Placeholder para guardar a lista nova
             List<Recipe> tempRecipes = new List<Recipe>();
-
+            List<Recipe> tempRecipes2 = new List<Recipe>();
 
             foreach (Recipe r in recipes)
             {
@@ -62,13 +56,27 @@ namespace Models.shared
                 }
             }
 
-            Debug.WriteLine("TempRecipes");
             foreach (Recipe r in tempRecipes)
             {
-                Debug.WriteLine(r.recipeID);
+                bool passed = true;
+                foreach (ExcludedIngredients i in excludedIngredients)
+                {                    
+                    foreach (Ingredient ing in r.ingredients)
+                    {
+                        if (i.ingredientID == ing.ingredientID)
+                        {
+                            passed = false;
+                            break;
+                        }
+                    }
+                }
+                if (passed)
+                {
+                    tempRecipes2.Add(r);
+                }
             }
 
-            return tempRecipes;
+            return tempRecipes2;
         }
 
         public List<Recipe> getRecipes(string search, int userID)
